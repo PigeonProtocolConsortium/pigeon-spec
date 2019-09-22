@@ -6,7 +6,7 @@ A synchronizing peer-to-peer messaging protocol that is:
  * tamper-resistant
  * delay tolerant (assumes sneakernet is the default transport layer)
 
-The document below describes a protocol as it _should be_ rather than as it is. This document does not describe a working protocol. It is a planning document for a protocol and the first software package that will implement the protocol.
+The document below describes a protocol as it _should be_ rather than as it is. This document does not describe a working protocol. It is a planning document for a protocol and the first software packages that will implement the protocol.
 
 # How It Works
 
@@ -31,7 +31,7 @@ In the specification below, the terms "protocol", "implementation" and "applicat
 
 The **protocol** is a document that specifies a set of guidelines that implementors must follow when authoring a Pigeon Protocol implementation. Analogy: HTTP is a protocol. [RFC 2616](https://tools.ietf.org/html/rfc2616) is its specification.
 
-An **implementation** is a software library (not an application) that implements the Pigeon protocol specification. Example: HTTP is a protocol. LibCurl and LibHTTP are HTTP implementations.
+An **implementation** is a software library (not an application for end users) that implements the Pigeon protocol specification. Example: HTTP is a protocol. LibCurl and LibHTTP are HTTP implementations.
 
 An **application** is software that uses a Pigeon Protocol implementation, possibly augmenting the protocol with additional functionality. Example: HTTP is a protocol. Netscape Navigator is an HTTP application.
 
@@ -50,7 +50,7 @@ An **application** is software that uses a Pigeon Protocol implementation, possi
  * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
  * Offline-first. Assume the user will never have TCP or UDP access.
  * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs)
- * Use a compact serialization format that is deterministic and easy to parse on constrained end devices.
+ * Use a compact serialization format that is deterministic and easy to parse on constrained end devices or use none at all (let the application decide).
 
 # Constraints, Assumptions
 
@@ -83,14 +83,15 @@ An **application** is software that uses a Pigeon Protocol implementation, possi
 
  * Base64: This project uses standard base64 encoding, as defined in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding.
  * Identity: A base64 `ed25519` public key starting with `@` and ending with `.ed25519`.
- * Signature: An ED25519 signature starting with a `%` and end with `.sha256`.
+ * Message Signature: An ED25519 signature starting with a `%` and end with `.sha256`. Messages (covered later) are referenced by a signature.
  * String: A 1..62 byte list of ASCII characters, Starting and ending with `"`.
- * Blob: arbitrary binary data over 62 bytes in length, currently limited to 1 MB max.
- * Hash: A base64'ed SHA256 of a Blob, starting with `&` and ending with `.sha256`.
- * Attribute: A term to collectively describe `string`s, and `hash`es.
- * Pair: two attributes (see definition above) joined with a `:` between the two.
- * Body: A special attribute and reserved word.
- * Message: A document with an author, prev, depth, kind, mandatory body and an arbitrary set of attribute pairs.
+ * Blob: Arbitrary binary data, with a current max size of 1 MB.
+ * Blob Hash: A base64'ed SHA256 of a Blob, starting with `&` and ending with `.sha256`.
+ * Pair: One `string` and on of the following: `Blob Hash|Signature|Identity|String`, joined with a `:` character between the two. See "key" and "value" below.
+ * Key: The value to the left of a `:` in a pair. Always a string.
+ * Value: The value to the right of a `:` in a pair. It is always one of the following: `Blob Hash, Signature, Identity, String`.
+ * Message: A document with an author, prev, depth, kind, and an arbitrary set of attribute pairs.
+ * Kind: A string at the top of a message indicating the message's purpose. Example `"private_message"`, `"mention"`, `"share"`. Kinds may be namespaced by applications using the `.` character.
  * Feed: A linked collection of messages.
  * Null Signature: An ASCII `0` character, used to indicate the first message in a feed (discussed later)
  * Bundle: A specially crafted binary archive sent from one peer directly to another peer for the sake of synchronizing and gossiping feeds. Bundles are intricate and require their own document, found [here](bundles.md)
@@ -151,11 +152,7 @@ pigeon message current # Show active log entry.
 # =>
 # =>
 
-pigeon message append --name=2e7a0bc3 --value=2e7a0bc3
-# => \n
-# => This needs to be cleaner.
-# => No one likes the way it is right now.
-# => We will come back to this monstrosity later.
+pigeon blob get 2e7a0bc3 | pigeon message append funy_cat_video
 
 pigeon message save
 # => author: @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
