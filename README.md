@@ -139,13 +139,14 @@ cat "pigeon.jpg" | pigeon blob set
 pigeon blob get "&2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256"
 # => "Lol, data"
 
-pigeon message new my_message
-# => "Switched to message `my_message`
+pigeon message new weather_report
+# => "Commiting existing message `%jvK...zGM=.sha256`.
+# => "Starting new message of kind `weather_report`.
 
 pigeon message current # Show active log entry.
 # => author: @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
 # => depth: 1
-# => kind: &82244417f956ac7c599f191593f7e441a4fafa20a4158fd52e154f1dc4c8ed92.sha256
+# => kind: weather_report
 # => prev: %jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
 # =>
 # =>
