@@ -129,8 +129,10 @@ pigeon identity show
 pigeon blob set '"Lol, data"'
 # => &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
 
-# Or use echo for big files:
-echo '"Lol, data"' > pigeon blob set
+# Or use pipes for big files:
+echo "Lol, data" | pigeon blob set
+# => &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
+cat "pigeon.jpg" | pigeon blob set
 # => &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
 
 
