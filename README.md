@@ -81,7 +81,7 @@ An **application** is software that uses a Pigeon Protocol implementation, possi
 
 # Concepts
 
- * Base64: This project uses standard base64 encoding, as defined in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding.
+ * Base64: The protocol will use Base 64 Encoding with URL and Filename Safe Alphabet as specified in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding. Deviations from this will be explicitly noted.
  * Identity: A base64 `ed25519` public key starting with `@` and ending with `.ed25519`.
  * Message Signature: An ED25519 signature starting with a `%` and end with `.sha256`. Messages (covered later) are referenced by a signature.
  * String: A 1..62 byte list of ASCII characters, Starting and ending with `"`.
