@@ -20,20 +20,39 @@ This is an exploration of ideas set forth by the Secure Scuttlebutt protocol. It
 
 I've also been inspired by the compactness and minimalism of [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
 
-# The Protocol Design Should...
+# What is Possible?
 
- * Have [near] zero config. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested configs, no arrays, none of that crap. Seriously, I'm watching you.
- * Offer a portable and interchangeable format for application developers
+Below are some possible use cases to illustrate real-world applications. Once protocol implementations exist, the ideas below should be possible.
+
+ * Sync over sneakernet using common Unix utilities and default features.
+ * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB.
+ * Import and export your data to and from Secure Scuttlebutt.
+ * Play-by-mail [patchwork clone](https://github.com/ssbc/patchwork)
+ * Offer developers the opportunity to use the protocol in the language of their choice. One of the languages will be WASM compatible for portability.
+ * A newsgroup analog.
+ * A play-by-mail (or bluetooth) file sharing app.
+ * FireFox log viewer extension, similar to [Patchfox](https://github.com/soapdog/patchfox).
+ * A turn-based board game.
+ * A messenger app
+ * Sync a feed over email (via external tool)
+ * Sync a feed over bluetooth (via external tool)
+ * Sync a feed over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson.
+
+# Hard Constraints
+
+ * Have [near] zero config. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
+ * Offer a portable and interchangeable format for application developers to synchronize data between peers.
+ * No singletons. No servers, no client/server differentiation.
 
 # Protocol Vs. Implementation Vs. Application
 
 In the specification below, the terms "protocol", "implementation" and "application" will be used frequently.
 
-The **protocol** is a document that specifies a set of guidelines that implementors must follow when authoring a Pigeon Protocol implementation. Analogy: HTTP is a protocol. [RFC 2616](https://tools.ietf.org/html/rfc2616) is its specification.
+The **protocol** is a document that specifies a set of guidelines that implementors must follow when authoring a Pigeon Protocol implementation. Analogy: HTTP is a protocol specified by [RFC 2616](https://tools.ietf.org/html/rfc2616).
 
-An **implementation** is a software library (not an application for end users) that implements the Pigeon protocol specification. Example: HTTP is a protocol. LibCurl and LibHTTP are HTTP implementations.
+An **implementation** is a software library (not an application for end users) that implements the Pigeon protocol specification. Example: LibCurl and LibHTTP are HTTP implementations.
 
-An **application** is software that uses a Pigeon Protocol implementation, possibly augmenting the protocol with additional functionality. Example: HTTP is a protocol. Netscape Navigator is an HTTP application.
+An **application** is software that uses a Pigeon Protocol implementation, possibly augmenting the protocol with additional functionality. Example: Netscape Navigator is an HTTP application.
 
 # The Initial Implementation Should...
 
@@ -49,40 +68,22 @@ An **application** is software that uses a Pigeon Protocol implementation, possi
  * Have no singletons (no signing authorities, no servers of any kind, even locally)
  * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
  * Offline-first. Assume the user will never have TCP or UDP access.
- * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs)
- * Use a compact serialization format that is deterministic and easy to parse on constrained end devices or use none at all (let the application decide).
-
-# Constraints, Assumptions
-
+ * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so.
+ * Use a serialization format that is deterministic and easy to parse on constrained devices.
  * Assume there are no connections or network (file/blob first)
  * Assume CPU resources and memory are limited.
  * Assume block storage is plentiful (storage space measured in GBs)
-
-# The Gauntlet
-
- * Create an implementation in multiple languages, one of which is WASM compatible
- * patchwork clone
- * SSB importer / exporter
- * GUI database browser
- * reddit/newsgroup clone
- * File sharing app
- * turn-based board game
- * Messenger type app
- * Sync over sneakernet (using common Unix utilities and default features)
- * Sync over email (via external tool)
- * Sync over bluetooth (via external tool)
- * FireFox log viewer extension, similar to Patchfox
- * Transmit Pigeon Protocol bundles over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson.
 
 # Unanswered Questions
 
  * Ephemeral key exchange
  * Merkle tree vs. hash chain
+ * Standardized general purpose message schemas (follow, unfollow, redirect, etc.)
 
 # Concepts
 
  * Base64: The protocol will use Base 64 Encoding with URL and Filename Safe Alphabet as specified in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding. Deviations from this will be explicitly noted.
- * Identity: A base64 `ed25519` public key starting with `@` and ending with `.ed25519`.
+ * Identity: A base64 `ed25519` public key string starting with `@` and ending with `.ed25519`.
  * Message Signature: An ED25519 signature starting with a `%` and end with `.sha256`. Messages (covered later) are referenced by a signature.
  * String: A 1..62 byte list of ASCII characters, Starting and ending with `"`.
  * Blob: Arbitrary binary data, with a current max size of 1 MB.
@@ -91,7 +92,9 @@ An **application** is software that uses a Pigeon Protocol implementation, possi
  * Header: A reserved pair of information that is required by the protocol for internal reasons. Not to be confused by a `Pair`, which is user definable. The only Headers the protocol currently uses are `author`, `depth`, `kind`, `prev`. Headers do not have "string quotes" around the key, and the value is delimited by a space (` `) character. Example: `depth 46`.
  * Key: The value to the left of a `:` in a pair. Always a string.
  * Value: The value to the right of a `:` in a pair. It is always one of the following: `Blob Hash, Signature, Identity, String`.
- * Message: A document with an author, prev, depth, kind, and an arbitrary set of attribute pairs.
+ * Message: A document with an author, prev, depth, kind, an arbitrary set of attribute pairs and a footer.
+ * Footer: ??? TODO ????
+ * Signature: ??? TODO ???
  * Kind: A string at the top of a message indicating the message's purpose. Example `"private_message"`, `"mention"`, `"share"`. Kinds may be namespaced by applications using the `.` character.
  * Feed: A linked collection of messages.
  * Null Signature: An ASCII `0` character, used to indicate the first message in a feed (discussed later)
@@ -110,6 +113,8 @@ prev %85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c281.sha256
 "my_friend":@abcdef1234567890.ed25519
 "really_cool_message":%85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c281.sha256
 "baz":"whatever"
+
+signature 1b04b5329c1b04b5329c1b04b5329c1b04b5329c.sig.ed25519
 ```
 
 # How It Works
