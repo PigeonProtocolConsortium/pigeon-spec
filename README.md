@@ -1,3 +1,5 @@
+![](logo.png)
+
 # Pigeon
 
 A synchronizing peer-to-peer messaging protocol that is:
