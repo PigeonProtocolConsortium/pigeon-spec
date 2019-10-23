@@ -20,10 +20,9 @@ Pigeon can serve a number of use cases. Below are some examples:
  * Store-and-forward message gateways, such as a [data mule](https://en.wikipedia.org/wiki/Data_mule).
  * Censorship resistant communications
  * [Delay tolerant networking](https://en.wikipedia.org/wiki/Delay-tolerant_networking)
- * Applications that require a high level of  systems
+ * Applications that require a high level of data-integrity or auditing.
  * delay-tolerant peer-to-peer social networks, games, file sharing etc...
  * Time series data storage
- * Communications software
 
 # What Does It Do?
 
