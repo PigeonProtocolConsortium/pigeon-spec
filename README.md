@@ -56,26 +56,6 @@ An **implementation** is a software library (not an application for end users) t
 
 An **application** is software that uses a Pigeon Protocol implementation, possibly augmenting the protocol with additional functionality. Example: Netscape Navigator is an HTTP application.
 
-# The Initial Implementation Should...
-
- * Allow for importing/exporting to SSB via plugins.
- * Assume CPU and RAM are not plentiful.
- * Assume platform has no networking support. No startups, shutdowns, or reboots
- * Assume storage is plentiful when making resource allocation tradeoffs.
- * Be filesystem agnostic. Persistence mechanisms are implementation-specific.
- * Be Secure
- * Easily be ported to new platforms and languages.
- * Enable "Free listening"
- * Have a formal specification (reference implementations are not OK).
- * Have no singletons (no signing authorities, no servers of any kind, even locally)
- * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
- * Offline-first. Assume the user will never have TCP or UDP access.
- * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so.
- * Use a serialization format that is deterministic and easy to parse on constrained devices.
- * Assume there are no connections or network (file/blob first)
- * Assume CPU resources and memory are limited.
- * Assume block storage is plentiful (storage space measured in GBs)
-
 # What is Possible?
 
 Below are some possible use cases to illustrate real-world applications. Once protocol implementations exist, the ideas below should be possible.
@@ -239,3 +219,23 @@ pigeon bundle consume @GOl+398b2kWeLi6+DCcU0i3AWD6vWmUtocBVYbpkpNk=.ed25519.pige
 # =>
 
 ```
+
+# The Initial Implementation Should...
+
+ * Allow for importing/exporting to SSB via plugins.
+ * Assume CPU and RAM are not plentiful.
+ * Assume platform has no networking support. No startups, shutdowns, or reboots
+ * Assume storage is plentiful when making resource allocation tradeoffs.
+ * Be filesystem agnostic. Persistence mechanisms are implementation-specific.
+ * Be Secure
+ * Easily be ported to new platforms and languages.
+ * Enable "Free listening"
+ * Have a formal specification (reference implementations are not OK).
+ * Have no singletons (no signing authorities, no servers of any kind, even locally)
+ * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
+ * Offline-first. Assume the user will never have TCP or UDP access.
+ * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so.
+ * Use a serialization format that is deterministic and easy to parse on constrained devices.
+ * Assume there are no connections or network (file/blob first)
+ * Assume CPU resources and memory are limited.
+ * Assume block storage is plentiful (storage space measured in GBs)
