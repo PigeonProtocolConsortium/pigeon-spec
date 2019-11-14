@@ -24,6 +24,22 @@ Pigeon can serve a number of use cases. Below are some examples:
  * delay-tolerant peer-to-peer social networks, games, file sharing etc...
  * Time series data storage
 
+# How Pigeon Differs from Traditional Sneakernet
+
+Sneakernet is a protocol used by ancient civilization to exchange files between computers with limited internet connectivity. Although Pigeon protocol messages can be exchanged over sneakernet, Pigeon is _not_ sneakernet. Sneakernet messages by themselves are not tamper resistant, nor are they replicated by peers other than the recipient. In contrast, a Pigeon protocol message is replicated _beyond_ its intended recipient to neighboring peers ("friend of a friend") via gossip and uses cryptography to guarantee that a message's content has not been altered by a third party.
+
+# I Have Internet Access. Why Should I Care?
+
+ * [‘Nobody’s got to use the Internet’: A GOP lawmaker’s response to concerns about Web privacy](https://www.washingtonpost.com/news/powerpost/wp/2017/04/15/nobodys-got-to-use-the-internet-a-gop-lawmakers-response-to-concerns-about-web-privacy/)
+ * [The death of America's net neutrality and how it affects you](https://www.dw.com/en/the-death-of-americas-net-neutrality-and-how-it-affects-you/a-43934099)
+ * [YouTube and Facebook Are Removing Evidence of Atrocities, Jeopardizing Cases Against War Criminals](https://theintercept.com/2017/11/02/war-crimes-youtube-facebook-syria-rohingya/)
+ * [Encryption is Not Preventing Law Enforcement from Investigating Crime ](https://www.alec.org/article/encryption-is-not-preventing-law-enforcement-from-investigating-crime/)
+ * [Iraq introduces nightly internet curfew](https://netblocks.org/reports/iraq-introduces-nightly-internet-curfew-JAp1DKBd)
+ * [Building a Low-Tech Internet](https://www.lowtechmagazine.com/2015/10/how-to-build-a-low-tech-internet.html)
+ * [Inside Cuba's massive, weekly, human-curated sneakernet](https://boingboing.net/2018/05/03/inside-cubas-massive-weekly.html)
+ * [CollapseOS](https://collapseos.org/)
+ * [Russian Law Takes Effect that Gives Government Sweeping Power Over Internet](https://www.npr.org/2019/11/01/775366588/russian-law-takes-effect-that-gives-government-sweeping-power-over-internet)
+
 # What Does It Do?
 
 Each node in a swarm of peers has a local "log". The log is an append only feed of messages written in an ASCII-based serialization format. Messages are signed with a secret key to validate a message's integrity and to prevent tampering by untrusty peers. Nodes in the swarm "follow" other logs from peers of interest. Nodes always replicate the logs of their peers and "gossip" information about peers across the swarm. Gossip information is packaged into "bundles" which contain backups of peer logs in an efficient binary format that can be easily transmitted via sneakernet, direct serial connection, or any other high-latency, high throughput medium.
