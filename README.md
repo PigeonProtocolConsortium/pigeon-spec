@@ -42,6 +42,8 @@ Sneakernet is a protocol used by ancient civilization to exchange files between 
  * [CollapseOS](https://collapseos.org/)
  * [Russian Law Takes Effect that Gives Government Sweeping Power Over Internet](https://www.npr.org/2019/11/01/775366588/russian-law-takes-effect-that-gives-government-sweeping-power-over-internet)
  * [Indian Internet shut down as protests rage against citizenship bill](https://edition.cnn.com/2019/12/12/asia/india-shutdown-citizenship-bill-intl-hnk/index.html)
+ * [Google goes offline after fibre cables cut](https://www.bbc.com/news/technology-50851420)
+ * [Authoritarian Nations Are Turning the Internet Into a Weapon](https://onezero.medium.com/authoritarian-nations-are-turning-the-internet-into-a-weapon-10119d4e9992)
 
 # What Does It Do?
 
