@@ -104,7 +104,7 @@ Below are some possible use cases to illustrate real-world applications. Once pr
  * Identity: A base64 `ed25519` public key string starting with `@` and ending with `.ed25519`.
  * Message Signature: An ED25519 signature starting with a `%` and end with `.sha256`. Messages (covered later) are referenced by a signature.
  * String: A 1..62 byte list of ASCII characters, Starting and ending with `"`.
- * Blob: Arbitrary binary data, with a current max size of 1 MB.
+ * Blob: Arbitrary binary data, with a current max size of 1.4 MB.
  * Blob Hash: A base64'ed SHA256 of a Blob, starting with `&` and ending with `.sha256`.
  * Pair: One `string` and on of the following: `Blob Hash|Signature|Identity|String`, joined with a `:` character between the two. See "key" and "value" below.
  * Header: A reserved pair of information that is required by the protocol for internal reasons. Not to be confused by a `Pair`, which is user definable. The only Headers the protocol currently uses are `author`, `depth`, `kind`, `prev`. Headers do not have "string quotes" around the key, and the value is delimited by a space (` `) character. Example: `sequence 46`.
@@ -116,24 +116,41 @@ Below are some possible use cases to illustrate real-world applications. Once pr
  * Kind: A string at the top of a message indicating the message's purpose. Example `"private_message"`, `"mention"`, `"share"`. Kinds may be namespaced by applications using the `.` character.
  * Feed: A linked collection of messages.
  * Null Signature: An ASCII `0` character, used to indicate the first message in a feed (discussed later)
- * Bundle: A specially crafted binary archive sent from one peer directly to another peer for the sake of synchronizing and gossiping feeds. Bundles are intricate and require their own document, found [here](bundles.md)
+ * Bundle: A specially crafted text archive sent from one peer directly to another peer for the sake of synchronizing and gossiping feeds. Bundles are intricate and require their own document, found [here](bundles.md)
 
 # What a Message Looks Like
 
+Example 1:
+
 ```
-author @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-sequence 23
-kind "example"
-previous %85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c281.sha256
-timestamp 23123123123
+author @DYdgK1KUInVtG3lS45hA1HZ-jTuvfLKsxDpXPFCve04=.ed25519
+kind hello_world
+prev NONE
+depth 0
 
-"foo":&3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea.sha256
-"baz":"bar"
-"my_friend":@abcdef1234567890.ed25519
-"really_cool_message":%85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c281.sha256
-"baz":"whatever"
+key1:"my_value\n"
+key2:"my_value2"
+key3:"my_value3"
+key4:%jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
+key5:&29f3933302c49c60841d7620886ce54afc68630242aee6ff683926d2465e6ca3.sha256
+key6:@galdahnB3L2DE2cTU0Me54IpIUKVEgKmBwvZVtWJccg=.ed25519
 
-signature 1b04b5329c1b04b5329c1b04b5329c1b04b5329c.sig.ed25519
+signature DN7yPTE-m433ND3jBL4oM23XGxBKafjq0Dp9ArBQa_TIGU7DmCxTumieuPBN-NKxlx_0N7-c5zjLb5XXVHYPCQ==.sig.ed25519
+
+```
+
+Example 2:
+
+```
+author @DYdgK1KUInVtG3lS45hA1HZ-jTuvfLKsxDpXPFCve04=.ed25519
+kind second_example
+prev %ZTBmYWZlMGU0Nzg0ZWZlYjA5NjA0MzdlZWVlNTBiMmY4ODEyZWI1NTZkODcwN2FlMDQxYThmMDExNTNhM2E4NQ==.sha256
+depth 1
+
+hello:"world"
+
+signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQVdfq2TtBPoQHc-MCw==.sig.ed25519
+
 ```
 
 # How It Works
@@ -245,18 +262,17 @@ pigeon bundle consume @GOl+398b2kWeLi6+DCcU0i3AWD6vWmUtocBVYbpkpNk=.ed25519.pige
 
  * Allow for importing/exporting to SSB via plugins.
  * Assume CPU and RAM are not plentiful.
- * Assume platform has no networking support. No startups, shutdowns, or reboots
- * Assume storage is plentiful when making resource allocation tradeoffs.
- * Be filesystem agnostic. Persistence mechanisms are implementation-specific.
- * Be Secure
- * Easily be ported to new platforms and languages.
+ * Assume platform has no networking support. No servers. No hooks for startups, shutdowns, or reboots.
+ * Assume CPU resources and memory are limited.
+ * Assume block storage is plentiful when making resource allocation tradeoffs.
+ * Files are better than sessions.
+ * ...but be filesystem agnostic. Persistence mechanisms are implementation-specific.
+ * Provide tamper resistance. Privacy features will be added in v2.
+ * Be easily ported to new platforms and languages.
  * Enable "Free listening"
  * Have a formal specification (reference implementations are not OK).
  * Have no singletons (no signing authorities, no servers of any kind, even locally)
  * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
- * Offline-first. Assume the user will never have TCP or UDP access.
- * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so.
+ * Offline-first. Never incorporate TCP or UDP features ever. Such concerns must be handled by application developers.
+ * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so. Decoupling a library into a package for only 2 use cases is not acceptable.
  * Use a serialization format that is deterministic and easy to parse on constrained devices.
- * Assume there are no connections or network (file/blob first)
- * Assume CPU resources and memory are limited.
- * Assume block storage is plentiful (storage space measured in GBs)
