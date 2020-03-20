@@ -61,6 +61,8 @@ This is an exploration of ideas set forth by the Secure Scuttlebutt protocol. It
 
 I've also been inspired by the compactness and minimalism of [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
 
+In many ways, this protocol can be considered an amalgam of the best ideas from both SQLite and Secure Scuttlebutt.
+
 # Hard Constraints
 
  * Have [near] zero config. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
