@@ -33,16 +33,17 @@ Pigeon can serve a number of use cases. Below are some examples:
 Below are some possible use cases to illustrate real-world applications. Once protocol implementations exist, the ideas below should be possible.
 
  * Play-by-mail [patchwork clone](https://github.com/ssbc/patchwork)
- * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB.
+ * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
  * A messenger app
- * Secure Scuttlebutt import / export / gateway tool.
- * A newsgroup / NNTP analog.
- * A play-by-mail (or bluetooth) file sharing app.
- * A turn-based board game.
+ * Secure Scuttlebutt import / export / gateway tool
+ * A newsgroup / NNTP analog
+ * A social mapping / point-of-interest sharing site
+ * A play-by-mail (or bluetooth) file sharing app
+ * A turn-based board game
  * An IoT data logger
  * Sync a feed over email (via external tool)
  * Sync a feed over bluetooth (via external tool)
- * Sync a feed over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson.
+ * Sync a feed over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson
 
 # How Pigeon Differs from Traditional Sneakernet
 
