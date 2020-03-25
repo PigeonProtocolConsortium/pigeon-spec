@@ -38,7 +38,8 @@ Below are some possible use cases to illustrate real-world applications. Once pr
  * Secure Scuttlebutt import / export / gateway tool
  * A newsgroup / NNTP analog
  * A social mapping / point-of-interest sharing site
- * A play-by-mail (or bluetooth) file sharing app
+ * File sharing app that operates over Bluetooth
+ * A compatibility gateway between Secure Scuttlebutt and Pigeon messages.
  * A turn-based board game
  * An IoT data logger
  * Sync a feed over email (via external tool)
@@ -98,6 +99,8 @@ signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQV
 
 ```
 
+![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
+
 # I Have Internet Access. Why Should I Care?
 
  * [How Iran Turned Off the Internet](https://thewire.in/tech/how-iran-turned-off-the-internet)
@@ -117,7 +120,7 @@ signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQV
 
 # Prior Art
 
-Pigeon borrows many of the ideas set forth by the Secure Scuttlebutt protocol. It is my opinion that SSB is one of the most innovative protocols created in recent years. Without the research and efforts of the SSBC, this project would not be possible, so a big thanks goes out to all the people who make SSB possible.
+Pigeon borrows many of the ideas set forth by the [Secure Scuttlebutt protocol](https://ssbc.github.io/scuttlebutt-protocol-guide/). It is my opinion that SSB is one of the most innovative protocols created in recent years. Without the research and efforts of the [Secure Scuttlebutt Consortium](https://github.com/ssbc), this project would not be possible, so a big thanks goes out to all the people who make SSB possible.
 
 I've also been inspired by the compactness and minimalism of [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
 
@@ -127,7 +130,7 @@ In many ways, this protocol can be considered an amalgam of the best ideas from 
 
  * Configuration is bad and should be considered a design comprise in nearly all situations. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
  * No singletons. No signing authorities, no servers of any kind, even locally, no differentiation between peers (eg: no "super peers").
- * Offline-first. Never incorporate TCP or UDP features ever. Such concerns must be handled by application developers. This is to ensure that the protocol is always a viable option for off-grid use cases.
+ * Support Offline-first by being offline-only. Never incorporate TCP or UDP features ever. Such concerns must be handled by higher-level protocols or by application developers. This is to ensure that the protocol is always a viable option for off-grid use cases.
 
 # Roadmap
 
@@ -135,11 +138,15 @@ In many ways, this protocol can be considered an amalgam of the best ideas from 
 
 This is the brainstorming phase where the initial proof-of-concept clients will be written. The first protocol client will be slow and may not be suitable for embedded use within a larger application.
 
+This phase is complete when there is at least one functioning client implementation.
+
 ## Phase II: Build a Working Application
 
 Using the protocol client from phase I, build an application which uses Pigeon for simulated real-world conditions. This phase will allow for discovery of problems with the draft specification and the first client implementations.
 
 Please see the "What's Possible" section for a list of applications that may be published.
+
+This phase is complete when there are at least two applications (rather than libs or clients) that utilize the protocol.
 
 ## Phase III: Client Improvements
 
@@ -150,15 +157,25 @@ Once a gauntlet of applications have been built and outstanding design problems 
  * Portability to targets like WASM, embedded systems, Windows, etc..
  * Ability to be embedded into existing applications.
 
+This phase is complete when:
+ * There is a client library that is written in an embeddable language (C, Rust, etc..).
+ * There is a client library that can performantly serve a mesh of more than 15 peers in a real-world application.
+
+Nice-to-haves for this phase: see the implementation of a WASM and bare metal (embedded) client.
+
 ## Phase IV: Finalize v1 Spec
 
 Once a production-grade client exists, the focus will then become documentation. Using the knowledge gained from phases I-III, we will re-write all documentation, possibly using Gitbook or similar services.
 
 Version 1 of the protocol will be considered complete at this phase and the protocol will be considered "ready for production use".
 
+This phase is complete when the "Pigeon Protocol Handbook" is authored. The handbook will be a guide less than 100 pages long, that can be read by a developer from start to finish (as opposed to being referenced) to help them start writing Pigeon applications.
+
 ## Phase V: Stabilize, Maintain, Proliferate
 
 With a finalized spec and a portable client library, the next goal is to promote the product to as many developers as possible and continue to author software that is well suited to the protocol.
+
+This phase will be considered complete when there are three production-scale apps using the libraries authored. By this point, we've hopefully made a difference and helped people regain control of their data and find a new alternative to the current status-quo of "online only" computer applications.
 
 # Unanswered Questions
 
@@ -167,7 +184,6 @@ With a finalized spec and a portable client library, the next goal is to promote
 
 # The Initial Implementation Should...
 
- * Allow for importing/exporting to SSB via plugins.
  * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so. Decoupling a library into a package for only 2 use cases is not acceptable.
  * Assume CPU and RAM are not plentiful.
  * Assume platform has no networking support. No servers. No hooks for startups, shutdowns, or reboots.
