@@ -98,9 +98,8 @@ hello:"world"
 signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQVdfq2TtBPoQHc-MCw==.sig.ed25519
 
 ```
-<center>
-<img alt="A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE" src="diagram1.png">
-</center>
+
+![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
 
 # I Have Internet Access. Why Should I Care?
 
