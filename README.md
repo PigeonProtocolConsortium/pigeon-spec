@@ -98,8 +98,9 @@ hello:"world"
 signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQVdfq2TtBPoQHc-MCw==.sig.ed25519
 
 ```
-
+<center>
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
+</center>
 
 # I Have Internet Access. Why Should I Care?
 
@@ -176,6 +177,8 @@ This phase is complete when the "Pigeon Protocol Handbook" is authored. The hand
 With a finalized spec and a portable client library, the next goal is to promote the product to as many developers as possible and continue to author software that is well suited to the protocol.
 
 This phase will be considered complete when there are three production-scale apps using the libraries authored. By this point, we've hopefully made a difference and helped people regain control of their data and find a new alternative to the current status-quo of "online only" computer applications.
+
+After that, I might rename the project so that we arre not tied to the legacy baggage of the prototype phase. It might be fun to apply to a grant for continued maintanence (or just lock down the feature set- it's too early to say).
 
 # Unanswered Questions
 

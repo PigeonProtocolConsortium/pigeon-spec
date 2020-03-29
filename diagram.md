@@ -2,22 +2,13 @@ Edit this diagram at https://mermaid-js.github.io/mermaid-live-editor/#/edit
 ```mermaid
 classDiagram
 	None <|-- Example1: None
-	Example1 <|-- Example2: @DYdgK...Cve04=.ed25519
+	Example1 <|-- Example2: %6cf2...a982.sha256
 
   class None{
     empty
   }
 
 	class Example1{
-    author @DYdgK...Cve04=.ed25519
-    kind hello_world
-    prev NONE
-    depth 0
-
-    hello:"world"
-	}
-
-	class Example2{
     kind hello_world
     prev NONE
     depth 0
@@ -28,5 +19,14 @@ classDiagram
     key4:%jvKh9...bvzGM=.sha256
     key5:&29f39...e6ca3.sha256
     key6:@galda...WJccg=.ed25519
+	}
+
+	class Example2{
+    author @DYdgK...Cve04=.ed25519
+    kind hello_world
+    prev NONE
+    depth 0
+
+    hello:"world"
 	}
 ```
