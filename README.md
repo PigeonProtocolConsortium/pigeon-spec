@@ -101,6 +101,11 @@ signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQV
 
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
 
+# When is Pigeon the Wrong Choice?
+
+ * When the application requires true deletion of data, ephemeral data or mutability of previously created data. Pigeon feeds are immutable, append-only and permanently replicated by peers.
+ * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets is unlikely to ever be added to core libraries.
+
 # I Have Internet Access. Why Should I Care?
 
  * [How Iran Turned Off the Internet](https://thewire.in/tech/how-iran-turned-off-the-internet)
