@@ -12,9 +12,9 @@ A synchronizing peer-to-peer messaging protocol that is:
 
 # Protocol Maturity
 
-The document below describes a protocol as it _should be_ rather than as it is. Although the [first implementation of a Pigeon protocol client](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby) is nearly complete, it is still a work in progress.
+The [first working implementation of a Pigeon protocol client](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby) is complete, but lacks documentation. Many lessons were learned while building the first working client and the protocol has changed slightly. This document may be slightly out of date. It will be updated soon. Feedback is welcome.
 
-This document does not yet describe a working protocol. It is a planning document for a protocol and the first software packages that will implement the protocol.
+This is a planning document for a protocol and the first software packages that will implement the protocol.
 
 # Why?
 
@@ -69,34 +69,31 @@ Log synchronization via Sneakernet is the main use case for Pigeon messages to b
 Example 1:
 
 ```
-author @DYdgK1KUInVtG3lS45hA1HZ-jTuvfLKsxDpXPFCve04=.ed25519
-kind hello_world
-prev NONE
-depth 0
+author @78V80T9Q7862GW5KTNGSDBKMSA53WE98G8TGFDS6HC9HEABFD64G.ed25519
+kind ba16b9f6-a0bc-44e4-b873-da52308186e8
+prev %KDKK65CX8GMV7EFCJ4K3J77T38SNDE6DX1TE7AKKGW7X74Z63WKG.sha256
+depth 6
+lipmaa 5
 
-key1:"my_value\n"
-key2:"my_value2"
-key3:"my_value3"
-key4:%jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-key5:&29f3933302c49c60841d7620886ce54afc68630242aee6ff683926d2465e6ca3.sha256
-key6:@galdahnB3L2DE2cTU0Me54IpIUKVEgKmBwvZVtWJccg=.ed25519
+hello:"World"
+this_is_a:"Key"
 
-signature DN7yPTE-m433ND3jBL4oM23XGxBKafjq0Dp9ArBQa_TIGU7DmCxTumieuPBN-NKxlx_0N7-c5zjLb5XXVHYPCQ==.sig.ed25519
+signature JSSFBAZ58Y73NPWZ912KYS0EZ1WA3V3FAG9VW2TF99B3Z0RH06Q52DS2AEBRPEZJFZWBA1Q4WYR7N19VVGRZ9KDFYAX64PCTA9BEW3G.sig.ed25519
 
 ```
 
 Example 2:
 
 ```
-author @DYdgK1KUInVtG3lS45hA1HZ-jTuvfLKsxDpXPFCve04=.ed25519
-kind second_example
-prev %ZTBmYWZlMGU0Nzg0ZWZlYjA5NjA0MzdlZWVlNTBiMmY4ODEyZWI1NTZkODcwN2FlMDQxYThmMDExNTNhM2E4NQ==.sha256
-depth 1
+author @78V80T9Q7862GW5KTNGSDBKMSA53WE98G8TGFDS6HC9HEABFD64G.ed25519
+kind b049f082-861f-43f0-bc10-ca97b2b91b2e
+prev NONE
+depth 0
+lipmaa 0
 
-hello:"world"
+cool_message:%KDKK65CX8GMV7EFCJ4K3J77T38SNDE6DX1TE7AKKGW7X74Z63WKG.sha256
 
-signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQVdfq2TtBPoQHc-MCw==.sig.ed25519
-
+signature X4KF6YM3YMR457VTJ7HGY92F6W65YQBEG3WS5QDFNSAF45KHMDZZZRWK710F04Y6TPM2AJ3W135RSF42V8DAE7MJSSTCHYP7JQG7E10.sig.ed25519
 ```
 
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
@@ -105,23 +102,24 @@ signature AerpDKbKRrcaM9wihwFsPC4YRAfYWie5XFEKAdnxQom7MTvsXd9W39AvHfljJnEePZpsQV
 
  * When the application requires true deletion of data, ephemeral data or mutability of previously created data. Pigeon feeds are immutable, append-only and permanently replicated by peers.
  * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets is unlikely to ever be added to core libraries.
+ * Extremely "chatty" protocols. Pigeon was built with the assumption that data storage is cheap and data transfer is expensive and slow. Use cases with complex handshakes, pinging or timeouts may not be well suited to this protocol.
 
 # I Have Internet Access. Why Should I Care?
 
- * [How Iran Turned Off the Internet](https://thewire.in/tech/how-iran-turned-off-the-internet)
- * [Building Internet-connected things seems obvious today, but what about when there’s no Internet?](https://back7.co/home/raspberry-pi-recovery-kit)
+ * [Encryption is Not Preventing Law Enforcement from Investigating Crime](https://www.alec.org/article/encryption-is-not-preventing-law-enforcement-from-investigating-crime/)
  * [‘Nobody’s got to use the Internet’: A GOP lawmaker’s response to concerns about Web privacy](https://www.washingtonpost.com/news/powerpost/wp/2017/04/15/nobodys-got-to-use-the-internet-a-gop-lawmakers-response-to-concerns-about-web-privacy/)
+ * [How Iran Turned Off the Internet](https://thewire.in/tech/how-iran-turned-off-the-internet)
+ * [Google goes offline after fibre cables cut](https://www.bbc.com/news/technology-50851420)
+ * [Building Internet-connected things seems obvious today, but what about when there’s no Internet?](https://back7.co/home/raspberry-pi-recovery-kit)
  * [The death of America's net neutrality and how it affects you](https://www.dw.com/en/the-death-of-americas-net-neutrality-and-how-it-affects-you/a-43934099)
  * [YouTube and Facebook Are Removing Evidence of Atrocities, Jeopardizing Cases Against War Criminals](https://theintercept.com/2017/11/02/war-crimes-youtube-facebook-syria-rohingya/)
- * [Encryption is Not Preventing Law Enforcement from Investigating Crime](https://www.alec.org/article/encryption-is-not-preventing-law-enforcement-from-investigating-crime/)
  * [Iraq introduces nightly internet curfew](https://netblocks.org/reports/iraq-introduces-nightly-internet-curfew-JAp1DKBd)
  * [Building a Low-Tech Internet](https://www.lowtechmagazine.com/2015/10/how-to-build-a-low-tech-internet.html)
  * [Inside Cuba's massive, weekly, human-curated sneakernet](https://boingboing.net/2018/05/03/inside-cubas-massive-weekly.html)
  * [CollapseOS](https://collapseos.org/)
- * [Russian Law Takes Effect that Gives Government Sweeping Power Over Internet](https://www.npr.org/2019/11/01/775366588/russian-law-takes-effect-that-gives-government-sweeping-power-over-internet)
  * [Indian Internet shut down as protests rage against citizenship bill](https://edition.cnn.com/2019/12/12/asia/india-shutdown-citizenship-bill-intl-hnk/index.html)
- * [Google goes offline after fibre cables cut](https://www.bbc.com/news/technology-50851420)
  * [Authoritarian Nations Are Turning the Internet Into a Weapon](https://onezero.medium.com/authoritarian-nations-are-turning-the-internet-into-a-weapon-10119d4e9992)
+ * [Russian Law Takes Effect that Gives Government Sweeping Power Over Internet](https://www.npr.org/2019/11/01/775366588/russian-law-takes-effect-that-gives-government-sweeping-power-over-internet)
 
 # Prior Art
 
@@ -136,6 +134,17 @@ In many ways, this protocol can be considered an amalgam of the best ideas from 
  * Configuration is bad and should be considered a design comprise in nearly all situations. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
  * No singletons. No signing authorities, no servers of any kind, even locally, no differentiation between peers (eg: no "super peers").
  * Support Offline-first by being offline-only. Never incorporate TCP or UDP features ever. Such concerns must be handled by higher-level protocols or by application developers. This is to ensure that the protocol is always a viable option for off-grid use cases.
+
+# Other Goals and Guidelines
+
+ * Polyglot support. Maintain ecosystem diversity by having a protocol that can be easily and entirely ported to new languages and platforms.
+ * Natural is better than simple. Convention over configuration. Do not make plugins for common use cases unless it would hurt portability.
+ * Backwards compatibility. Numerous compromises have been made to support legacy systems, such as devices that lack network support and FAT16 file systems.
+
+# Non-Goals
+
+ * Extreme configurability.
+ * Network support (TCP, UDP, SSH, HTTP, Etc..)
 
 # Roadmap
 
