@@ -10,7 +10,6 @@ A synchronizing peer-to-peer messaging protocol that is:
  * delay tolerant
  * built for [sneakernet](https://en.wikipedia.org/wiki/Sneakernet) from the ground up
 
-
 Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedback is solicited and appreciated. Seriously, send us an email! We look forward to hearing from you.
 
 # Why?
@@ -99,6 +98,7 @@ signature X4KF6YM3YMR457VTJ7HGY92F6W65YQBEG3WS5QDFNSAF45KHMDZZZRWK710F04Y6TPM2AJ
 
 # I Have Internet Access. Why Should I Care?
 
+ * [Everything [in the cloud] is Amazing, But Nothing is Ours](https://alexdanco.com/2019/10/26/everything-is-amazing-but-nothing-is-ours/)
  * [Encryption is Not Preventing Law Enforcement from Investigating Crime](https://www.alec.org/article/encryption-is-not-preventing-law-enforcement-from-investigating-crime/)
  * [‘Nobody’s got to use the Internet’: A GOP lawmaker’s response to concerns about Web privacy](https://www.washingtonpost.com/news/powerpost/wp/2017/04/15/nobodys-got-to-use-the-internet-a-gop-lawmakers-response-to-concerns-about-web-privacy/)
  * [How Iran Turned Off the Internet](https://thewire.in/tech/how-iran-turned-off-the-internet)
@@ -152,13 +152,15 @@ The [first working implementation of a Pigeon protocol client](https://tildegit.
 
 # Roadmap
 
-## Phase I (You Are Here): Build a Working Client
+## Phase I: Build a Working Client
+
+**Completed April 2020**
 
 This is the brainstorming phase where the initial proof-of-concept clients will be written. The first protocol client will be slow and may not be suitable for embedded use within a larger application.
 
 This phase is complete when there is at least one functioning client implementation.
 
-## Phase II: Build a Working Application
+## [Current] Phase II: Build a Working Application
 
 Using the protocol client from phase I, build an application which uses Pigeon for simulated real-world conditions. This phase will allow for discovery of problems with the draft specification and the first client implementations.
 
@@ -220,7 +222,7 @@ After that, I might rename the project so that we arre not tied to the legacy ba
 
 # Concepts
 
-**This list is out of date.** Numerous changes and problems were addressed in the implementation of a client. We will update this list when the v0 client is released.
+**This list is out of date.** Numerous changes and problems were addressed in the implementation of a client. We will update this list in May of 2020.
 
  * Base64: The protocol will use Base 64 Encoding with URL and Filename Safe Alphabet as specified in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding. Deviations from this will be explicitly noted.
  * Identity: A base64 `ed25519` public key string starting with `@` and ending with `.ed25519`.
@@ -243,107 +245,4 @@ After that, I might rename the project so that we arre not tied to the legacy ba
 
 # Running a CLI Client
 
-**NOTE:** Some of the output examples may have changes. This section will be updated upon completion of the [first implementation of a Pigeon protocol client](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby).
-
-```bash
-
-pigeon status
-# => BLOBS: 10,234
-# => PEERS: 26
-# => VERSION: 0.0.1
-# => FOO: BAR
-
-pigeon identity new
-# => @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-
-pigeon identity show
-# => @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-
-
-pigeon blob set '"Lol, data"'
-# => &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-
-# Or use pipes for big files:
-echo "Lol, data" | pigeon blob set
-# => &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-cat "pigeon.jpg" | pigeon blob set
-# => &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-
-
-pigeon blob get &2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-# => "Lol, data"
-
-pigeon message new weather_report
-# => "Commiting existing message `%jvK...zGM=.sha256`.
-# => "Starting new message of kind `weather_report`.
-
-pigeon message current # Show active log entry.
-# => author @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-# => sequence 1
-# => kind weather_report
-# => previous %jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-# => timestamp 23123123123
-# =>
-# =>
-
-pigeon blob get 2e7a0bc3 | pigeon message append funy_cat_video
-
-pigeon message save
-# => author @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-# => sequence 1
-# => kind &82244417f956ac7c599f191593f7e441a4fafa20a4158fd52e154f1dc4c8ed92.sha256
-# => previous %jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-# => timestamp 23123123123
-# =>
-# => current_mood:&2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-# =>
-
-pigeon message find %g0Fs9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-# => author @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-# => sequence 1
-# => kind &82244417f956ac7c599f191593f7e441a4fafa20a4158fd52e154f1dc4c8ed92.sha256
-# => previous %jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-# => timestamp 23123123123
-# =>
-# => user_profile:&2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-# =>
-
-pigeon message find-all --author=@ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519 --since=1
-# => author @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-# => sequence 1
-# => kind &82244417f956ac7c599f191593f7e441a4fafa20a4158fd52e154f1dc4c8ed92.sha256
-# => previous %jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-# => timestamp 23123123123
-# =>
-# => like:%2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.ed25519
-# =>
-# => author @ajgdylxeifojlxpbmen3exlnsbx8buspsjh37b/ipvi=.ed25519
-# => sequence 2
-# => kind &82244417f956ac7c599f191593f7e441a4fafa20a4158fd52e154f1dc4c8ed92.sha256
-# => previous %jvKh9yoiEJaePzoWCF1nnqpIlPgTk9FHEtqczQbvzGM=.sha256
-# => timestamp 23123123123
-# =>
-# => favorite_song:&2e7a0bc31f3c4fe6114051c3a56c8ed8a030b3b394df7d29d37648e9b8cbf54b.sha256
-# =>
-
-pigeon peer add @m0LEP+0NrGqu1wT8/4a3nOPuRBM+DrMpUahDZ3/cDi8=.ed25519
-# =>
-
-pigeon peer remove @78daXMc/BOq5F1RWLMN4zgPVBVLqA4ShkLgE6z9OUGQ=.ed25519
-# =>
-
-pigeon peer block @GOl+398b2kWeLi6+DCcU0i3AWD6vWmUtocBVYbpkpNk=.ed25519
-# =>
-
-pigeon peer all
-# => @c8hovH5OOzNJ1SXUsIN+zI23xMcvGdEbs3ZJgzpthrw=.ed25519
-# => @GOl+398b2kWeLi6+DCcU0i3AWD6vWmUtocBVYbpkpNk=.ed25519
-# => @m0LEP+0NrGqu1wT8/4a3nOPuRBM+DrMpUahDZ3/cDi8=.ed25519
-
-pigeon bundle create
-# => (creates @GOl+398b2kWeLi6+DCcU0i3AWD6vWmUtocBVYbpkpNk=.ed25519.pigeon)
-
-pigeon bundle consume @GOl+398b2kWeLi6+DCcU0i3AWD6vWmUtocBVYbpkpNk=.ed25519.pigeon
-# =>
-
-```
+Pigeon currently has one CLI available. It is written in Ruby. Documentation can be found [here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby)
