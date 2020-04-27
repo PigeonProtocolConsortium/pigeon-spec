@@ -10,11 +10,8 @@ A synchronizing peer-to-peer messaging protocol that is:
  * delay tolerant
  * built for [sneakernet](https://en.wikipedia.org/wiki/Sneakernet) from the ground up
 
-# Protocol Maturity
 
-The [first working implementation of a Pigeon protocol client](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby) is complete, but lacks documentation. Many lessons were learned while building the first working client and the protocol has changed slightly. This document may be slightly out of date. It will be updated soon. Feedback is welcome.
-
-This is a planning document for a protocol and the first software packages that will implement the protocol.
+Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedback is solicited and appreciated. Seriously, send us an email! We look forward to hearing from you.
 
 # Why?
 
@@ -52,7 +49,7 @@ Below are some possible use cases to illustrate real-world applications. Once pr
 
 In summary, Pigeon protocol offers benefits above what a traditional sneakernet can provide. A Pigeon protocol message:
 
- * Is automatiaclly backed up by peers and peers-of-peers (gossip).
+ * Is automatically backed up by peers and peers-of-peers (gossip).
  * Cannot be forged by malicious parties.
  * Cannot be altered by anyone except the author.
 
@@ -60,11 +57,13 @@ In summary, Pigeon protocol offers benefits above what a traditional sneakernet 
 
 Each node in a swarm of peers has a local "log". The log is an append only feed of messages written in an ASCII-based serialization format. Messages are signed with a secret key to validate a message's integrity and to prevent tampering by untrusted peers. Nodes in the swarm "follow" other logs from peers of interest. Nodes always replicate the logs of their peers and "gossip" information about peers across the swarm. Gossip information is packaged into "bundles" which contain backups of peer logs in an efficient binary format that can be easily transmitted via sneakernet, direct serial connection, or any high throughput medium, regardless of latency.
 
-Log synchronization via Sneakernet is the main use case for Pigeon messages to be transmitted. Transmission of SD Cards via postal mail offer an excellent medium for transmission of Pigeon messages, although any data transfer medium is theoretically possible.
+Log synchronization via Sneakernet is the main use case for Pigeon messages to be transmitted. SD Cards sent via postal mail offer an excellent medium for transmission of Pigeon messages, although any data transfer medium is theoretically possible.
 
 ![](sync.png)
 
 # What a Message Looks Like
+
+Messages use a custom ASCII-based encoding scheme (shown below).
 
 Example 1:
 
@@ -72,8 +71,8 @@ Example 1:
 author @78V80T9Q7862GW5KTNGSDBKMSA53WE98G8TGFDS6HC9HEABFD64G.ed25519
 kind ba16b9f6-a0bc-44e4-b873-da52308186e8
 prev %KDKK65CX8GMV7EFCJ4K3J77T38SNDE6DX1TE7AKKGW7X74Z63WKG.sha256
-depth 6
-lipmaa 5
+depth 0
+lipmaa 0
 
 hello:"World"
 this_is_a:"Key"
@@ -88,7 +87,7 @@ Example 2:
 author @78V80T9Q7862GW5KTNGSDBKMSA53WE98G8TGFDS6HC9HEABFD64G.ed25519
 kind b049f082-861f-43f0-bc10-ca97b2b91b2e
 prev NONE
-depth 0
+depth 1
 lipmaa 0
 
 cool_message:%KDKK65CX8GMV7EFCJ4K3J77T38SNDE6DX1TE7AKKGW7X74Z63WKG.sha256
@@ -97,12 +96,6 @@ signature X4KF6YM3YMR457VTJ7HGY92F6W65YQBEG3WS5QDFNSAF45KHMDZZZRWK710F04Y6TPM2AJ
 ```
 
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
-
-# When is Pigeon the Wrong Choice?
-
- * When the application requires true deletion of data, ephemeral data or mutability of previously created data. Pigeon feeds are immutable, append-only and permanently replicated by peers.
- * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets is unlikely to ever be added to core libraries.
- * Extremely "chatty" protocols. Pigeon was built with the assumption that data storage is cheap and data transfer is expensive and slow. Use cases with complex handshakes, pinging or timeouts may not be well suited to this protocol.
 
 # I Have Internet Access. Why Should I Care?
 
@@ -128,6 +121,17 @@ Pigeon borrows many of the ideas set forth by the [Secure Scuttlebutt protocol](
 I've also been inspired by the compactness and minimalism of [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
 
 In many ways, this protocol can be considered an amalgam of the best ideas from both SQLite and Secure Scuttlebutt.
+
+
+# When is Pigeon the Wrong Choice?
+
+ * When the application requires true deletion of data, ephemeral data or mutability of previously created data. Pigeon feeds are immutable, append-only and permanently replicated by peers.
+ * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets is unlikely to ever be added to core libraries.
+ * Extremely "chatty" protocols. Pigeon was built with the assumption that data storage is cheap and data transfer is expensive and slow. Use cases with complex handshakes, pinging or timeouts may not be well suited to this protocol.
+
+# Protocol Maturity
+
+The [first working implementation of a Pigeon protocol client](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby) is complete. We are temporarily halting feature development to focus on documentation, bug fixes and outreach. Contact us to get involved.
 
 # Constraints and Design Philosophy
 

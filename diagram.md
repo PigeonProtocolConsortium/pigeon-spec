@@ -9,24 +9,27 @@ classDiagram
   }
 
 	class Example1{
-    kind hello_world
+    author @78V...64G.ed25519
+    kind b04...b2e
     prev NONE
     depth 0
+    lipmaa 0
 
-    key1:"my_value1"
-    key2:"my_value2"
-    key3:"my_value3"
-    key4:%JVKH...BVZG.sha256
-    key5:&29F3...E6CA.sha256
-    key6:@GALD...JCCG.ed25519
+    cool_message:%KDK...WKG.sha256
+
+    signature X4K...E10.sig.ed25519
 	}
 
 	class Example2{
-    author @DYDG...CVE0.ed25519
-    kind hello_world
-    prev %6CF2...A982.sha256
+    author @78V...64G.ed25519
+    kind ba1...6e8
+    prev %KDK...WKG.sha256
     depth 1
+    lipmaa 1
 
-    hello:"world"
+    hello:"World"
+    this_is_a:"Key"
+
+    signature JSS...W3G.sig.ed25519
 	}
 ```
