@@ -24,22 +24,30 @@ Pigeon can serve a number of use cases. Below are some examples:
  * Delay-tolerant peer-to-peer social networks, games, file sharing etc...
  * Time series data storage
 
-# What is Possible?
+# Prior Art
 
-Below are some possible use cases to illustrate real-world applications. Once protocol implementations exist, the ideas below should be possible.
+Pigeon borrows many of the ideas set forth by the [Secure Scuttlebutt protocol](https://ssbc.github.io/scuttlebutt-protocol-guide/). It is my opinion that SSB is one of the most innovative protocols created in recent years. Without the research and efforts of the [Secure Scuttlebutt Consortium](https://github.com/ssbc), this project would not be possible, so a big thanks goes out to all the people who make SSB possible.
 
- * Play-by-mail [patchwork clone](https://github.com/ssbc/patchwork)
- * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
+I've also been inspired by the compactness and minimalism of [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
+
+In many ways, this protocol can be considered an amalgam of the best ideas from both SQLite and Secure Scuttlebutt.
+
+# Possible Uses
+
+Below are some possible use cases to illustrate real-world applications.
+
  * A messenger app
- * Secure Scuttlebutt import / export / gateway tool
- * A newsgroup / NNTP analog
- * A social mapping / point-of-interest sharing site
- * File sharing app that operates over Bluetooth
- * A compatibility gateway between Secure Scuttlebutt and Pigeon messages.
  * A turn-based board game
  * An IoT data logger
- * Sync a feed over email (via external tool)
+ * A newsgroup / NNTP analog
+ * Play-by-mail [patchwork clone](https://github.com/ssbc/patchwork)
+ * A social mapping / point-of-interest sharing site
+ * Secure Scuttlebutt import / export / gateway tool
+ * File sharing app that operates over Bluetooth
  * Sync a feed over bluetooth (via external tool)
+ * A compatibility gateway between Secure Scuttlebutt and Pigeon messages.
+ * Sync a feed over email (via external tool)
+ * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
  * Sync a feed over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson
 
 # How Pigeon Differs from Traditional Sneakernet
@@ -113,15 +121,6 @@ signature X4KF6YM3YMR457VTJ7HGY92F6W65YQBEG3WS5QDFNSAF45KHMDZZZRWK710F04Y6TPM2AJ
  * [Indian Internet shut down as protests rage against citizenship bill](https://edition.cnn.com/2019/12/12/asia/india-shutdown-citizenship-bill-intl-hnk/index.html)
  * [Authoritarian Nations Are Turning the Internet Into a Weapon](https://onezero.medium.com/authoritarian-nations-are-turning-the-internet-into-a-weapon-10119d4e9992)
  * [Russian Law Takes Effect that Gives Government Sweeping Power Over Internet](https://www.npr.org/2019/11/01/775366588/russian-law-takes-effect-that-gives-government-sweeping-power-over-internet)
-
-# Prior Art
-
-Pigeon borrows many of the ideas set forth by the [Secure Scuttlebutt protocol](https://ssbc.github.io/scuttlebutt-protocol-guide/). It is my opinion that SSB is one of the most innovative protocols created in recent years. Without the research and efforts of the [Secure Scuttlebutt Consortium](https://github.com/ssbc), this project would not be possible, so a big thanks goes out to all the people who make SSB possible.
-
-I've also been inspired by the compactness and minimalism of [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
-
-In many ways, this protocol can be considered an amalgam of the best ideas from both SQLite and Secure Scuttlebutt.
-
 
 # When is Pigeon the Wrong Choice?
 
