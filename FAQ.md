@@ -24,14 +24,7 @@
 
 # Is This a Blockchain?
 
-It's different than a block chain despite some similarity
-Pigeon has no singletons. Each participant maintains their own chain.
-There is no global blockchain (or any global anything really)
-If you trust someone, you agree to replicate their chain (called a "feed")
-you also replicate the feed of their peers creating the concept of "listening distance"
-This is how Secure Scuttlebutt is achitected, so I can't take any credit for that idea.
-The messages can also contain blobs and references to other feeds (like links)
-So if I'm friends with you, and you're friends with Tunas, I can browse Tunas' blobs and text entries
+It's different than a block chain despite some similarity. A global blockchain is a singleton, and Pigeon has no singletons. Each Pigeon node maintains their own feed of messages rather than sharing a global feed. When you trust a peer, you agree to replicate their feed. You also replicate the feed of their peers. Unlike a blockchain, there are many feeds (rather than one) and they do not require consensus to coexist.
 
 # Up Next
 
