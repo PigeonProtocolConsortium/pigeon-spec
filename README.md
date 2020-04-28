@@ -1,6 +1,6 @@
 ![](logo.png)
 
-# Pigeon - The Off Grid Peer-to-Peer Protocol™
+## Pigeon - The Off Grid Peer-to-Peer Protocol
 
 A synchronizing peer-to-peer messaging protocol that is:
 
@@ -10,9 +10,17 @@ A synchronizing peer-to-peer messaging protocol that is:
  * delay tolerant
  * built for [sneakernet](https://en.wikipedia.org/wiki/Sneakernet) from the ground up
 
-Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedback is solicited and appreciated. Seriously, send us an email! We look forward to hearing from you.
+Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedback is solicited and appreciated. I will reply to all messages sent.
 
-# Why?
+## Contents
+
+ * Overview (You are Here)
+ * [Frequently Asked Questions](FAQ.md)
+ * [Roadmap](ROADMAP.md)
+ * [Developer Docs and Specification](DEV_DOCS.md)
+ * [Ideas and Features](IDEAS.md)
+
+# Overview
 
 Pigeon can serve a number of use cases. Below are some examples:
 
@@ -24,7 +32,20 @@ Pigeon can serve a number of use cases. Below are some examples:
  * Delay-tolerant peer-to-peer social networks, games, file sharing etc...
  * Time series data storage
 
-# Prior Art
+Framed in a more applied sense, Pigeon could theoretically support applications and use cases such as:
+
+ * A messenger app
+ * An IoT data logger
+ * A newsgroup / NNTP analog
+ * A turn-based board game
+ * A microblogging social network
+ * Secure Scuttlebutt import / export / gateway tool
+ * A social mapping / point-of-interest sharing site
+ * Bluetooth file sharing app
+ * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
+ * Sync files over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson
+
+## Prior Art
 
 Pigeon borrows many of the ideas set forth by the [Secure Scuttlebutt protocol](https://ssbc.github.io/scuttlebutt-protocol-guide/). It is my opinion that SSB is one of the most innovative protocols created in recent years. Without the research and efforts of the [Secure Scuttlebutt Consortium](https://github.com/ssbc), this project would not be possible, so a big thanks goes out to all the people who make SSB possible.
 
@@ -32,25 +53,9 @@ I've also been inspired by the compactness and minimalism of [SQLite, which shou
 
 In many ways, this protocol can be considered an amalgam of the best ideas from both SQLite and Secure Scuttlebutt.
 
-# Possible Uses
+Pigeon also borrows the [Lipmaa link concept seen in the Bamboo protocol](https://github.com/AljoschaMeyer/bamboo) to allow for partial verification of message feeds.
 
-Below are some possible use cases to illustrate real-world applications.
-
- * A messenger app
- * A turn-based board game
- * An IoT data logger
- * A newsgroup / NNTP analog
- * Play-by-mail [patchwork clone](https://github.com/ssbc/patchwork)
- * A social mapping / point-of-interest sharing site
- * Secure Scuttlebutt import / export / gateway tool
- * File sharing app that operates over Bluetooth
- * Sync a feed over bluetooth (via external tool)
- * A compatibility gateway between Secure Scuttlebutt and Pigeon messages.
- * Sync a feed over email (via external tool)
- * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
- * Sync a feed over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson
-
-# How Pigeon Differs from Traditional Sneakernet
+## How Pigeon Differs from Traditional Sneakernet
 
 [Sneakernet](https://en.wikipedia.org/wiki/Sneakernet) is a protocol used by ancient civilizations to exchange files between computers with limited internet connectivity. Although Pigeon protocol messages can be exchanged over sneakernet, Pigeon is _not_ sneakernet. Sneakernet messages by themselves are not tamper resistant, nor do they provide redundant backup via peers. In contrast, a Pigeon protocol message is redundantly replicated _beyond_ its intended recipient to neighboring peers ("friend of a friend") via gossip and uses cryptography to guarantee that a message's content has not been altered by a third party.
 
@@ -60,7 +65,20 @@ In summary, Pigeon protocol offers benefits above what a traditional sneakernet 
  * Cannot be forged by malicious parties.
  * Cannot be altered by anyone except the author.
 
-# How Does It Work?
+## How Pigeon Differs From Secure Scuttlebutt (SSB)
+
+As mentioned, Pigeon was inspired mostly by the work of of Secure Scuttlebutt. Pigeon takes a different approach in a few areas, however.
+
+1. No reliance on networking in the core library. Although SSB is theoretically able to support Sneakernet-only operation, it is difficult in practice due to reliance on UDP, TCP, and in the case of pubs, DNS.
+1. Pigeon uses a custom key/value serialization format instead of JSON. This has two benefits:
+    * Serialization and signing is much simpler. Indentation and whitespace are less likely to cause verification problems.
+    * Unlike JSON, pigeon messages do not allow nesting, which promotes simplified message schemas.
+1. Pigeon uses Crockford flavored Base32 rather than URL safe Base64. This makes it easier to support old or low powered systems. easier to support FAT16 / embedded systems you might want to have an FAQ section with pretty much this
+1. Pigeon was designed for portability from the beginning. It has a small enough conceptual overhead that it will actually be possible to support platforms other than NodeJS. Complicated features (like network support) are ignored in favor of an easy-to-implement standard
+1. It uses Lipmaa links, so you can verify a feed without downloading all 10,000 messages. This was inspired by the work of the Bamboo protocol.
+
+
+## How Does It Work?
 
 Each node in a swarm of peers has a local "log". The log is an append only feed of messages written in an ASCII-based serialization format. Messages are signed with a secret key to validate a message's integrity and to prevent tampering by untrusted peers. Nodes in the swarm "follow" other logs from peers of interest. Nodes always replicate the logs of their peers and "gossip" information about peers across the swarm. Gossip information is packaged into "bundles" which contain backups of peer logs in an efficient binary format that can be easily transmitted via sneakernet, direct serial connection, or any high throughput medium, regardless of latency.
 
@@ -68,9 +86,9 @@ Log synchronization via Sneakernet is the main use case for Pigeon messages to b
 
 ![](sync.png)
 
-# What a Message Looks Like
+## What Messages Look Like
 
-Messages use a custom ASCII-based encoding scheme (shown below).
+Messages use a custom ASCII-based encoding scheme (shown below). Although they are mostly human readable, they are intended to be parsed by third party applications rather than written by hand.
 
 Example 1:
 
@@ -104,108 +122,17 @@ signature X4KF6YM3YMR457VTJ7HGY92F6W65YQBEG3WS5QDFNSAF45KHMDZZZRWK710F04Y6TPM2AJ
 
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
 
-# I Have Internet Access. Why Should I Care?
-
- * [Everything [in the cloud] is Amazing, But Nothing is Ours](https://alexdanco.com/2019/10/26/everything-is-amazing-but-nothing-is-ours/)
- * [Encryption is Not Preventing Law Enforcement from Investigating Crime](https://www.alec.org/article/encryption-is-not-preventing-law-enforcement-from-investigating-crime/)
- * [‘Nobody’s got to use the Internet’: A GOP lawmaker’s response to concerns about Web privacy](https://www.washingtonpost.com/news/powerpost/wp/2017/04/15/nobodys-got-to-use-the-internet-a-gop-lawmakers-response-to-concerns-about-web-privacy/)
- * [How Iran Turned Off the Internet](https://thewire.in/tech/how-iran-turned-off-the-internet)
- * [Google goes offline after fibre cables cut](https://www.bbc.com/news/technology-50851420)
- * [Building Internet-connected things seems obvious today, but what about when there’s no Internet?](https://back7.co/home/raspberry-pi-recovery-kit)
- * [The death of America's net neutrality and how it affects you](https://www.dw.com/en/the-death-of-americas-net-neutrality-and-how-it-affects-you/a-43934099)
- * [YouTube and Facebook Are Removing Evidence of Atrocities, Jeopardizing Cases Against War Criminals](https://theintercept.com/2017/11/02/war-crimes-youtube-facebook-syria-rohingya/)
- * [Iraq introduces nightly internet curfew](https://netblocks.org/reports/iraq-introduces-nightly-internet-curfew-JAp1DKBd)
- * [Building a Low-Tech Internet](https://www.lowtechmagazine.com/2015/10/how-to-build-a-low-tech-internet.html)
- * [Inside Cuba's massive, weekly, human-curated sneakernet](https://boingboing.net/2018/05/03/inside-cubas-massive-weekly.html)
- * [CollapseOS](https://collapseos.org/)
- * [Indian Internet shut down as protests rage against citizenship bill](https://edition.cnn.com/2019/12/12/asia/india-shutdown-citizenship-bill-intl-hnk/index.html)
- * [Authoritarian Nations Are Turning the Internet Into a Weapon](https://onezero.medium.com/authoritarian-nations-are-turning-the-internet-into-a-weapon-10119d4e9992)
- * [Russian Law Takes Effect that Gives Government Sweeping Power Over Internet](https://www.npr.org/2019/11/01/775366588/russian-law-takes-effect-that-gives-government-sweeping-power-over-internet)
-
-# When is Pigeon the Wrong Choice?
-
- * When the application requires true deletion of data, ephemeral data or mutability of previously created data. Pigeon feeds are immutable, append-only and permanently replicated by peers.
- * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets is unlikely to ever be added to core libraries.
- * Extremely "chatty" protocols. Pigeon was built with the assumption that data storage is cheap and data transfer is expensive and slow. Use cases with complex handshakes, pinging or timeouts may not be well suited to this protocol.
-
-# Protocol Maturity
+## Protocol Maturity
 
 The [first working implementation of a Pigeon protocol client](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby) is complete. We are temporarily halting feature development to focus on documentation, bug fixes and outreach. Contact us to get involved.
 
-# Constraints and Design Philosophy
+## Constraints and Design Philosophy
 
- * Configuration is bad and should be considered a design comprise in nearly all situations. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
- * No singletons. No signing authorities, no servers of any kind, even locally, no differentiation between peers (eg: no "super peers").
  * Support Offline-first by being offline-only. Never incorporate TCP or UDP features ever. Such concerns must be handled by higher-level protocols or by application developers. This is to ensure that the protocol is always a viable option for off-grid use cases.
-
-# Other Goals and Guidelines
-
- * Polyglot support. Maintain ecosystem diversity by having a protocol that can be easily and entirely ported to new languages and platforms.
- * Natural is better than simple. Convention over configuration. Do not make plugins for common use cases unless it would hurt portability.
- * Backwards compatibility. Numerous compromises have been made to support legacy systems, such as devices that lack network support and FAT16 file systems.
-
-# Non-Goals
-
- * Extreme configurability.
- * Network support (TCP, UDP, SSH, HTTP, Etc..)
-
-# Roadmap
-
-## Phase I: Build a Working Client
-
-**Completed April 2020**
-
-This is the brainstorming phase where the initial proof-of-concept clients will be written. The first protocol client will be slow and may not be suitable for embedded use within a larger application.
-
-This phase is complete when there is at least one functioning client implementation.
-
-## [Current] Phase II: Build a Working Application
-
-Using the protocol client from phase I, build an application which uses Pigeon for simulated real-world conditions. This phase will allow for discovery of problems with the draft specification and the first client implementations.
-
-Please see the "What's Possible" section for a list of applications that may be published.
-
-This phase is complete when there are at least two applications (rather than libs or clients) that utilize the protocol.
-
-## Phase III: Client Improvements
-
-Once a gauntlet of applications have been built and outstanding design problems have been addressed, re-write existing client libraries. Unlike the client built in Phase I, the clients built in this phase will have a focus on:
-
- * Production-scale performance
- * Stability
- * Portability to targets like WASM, embedded systems, Windows, etc..
- * Ability to be embedded into existing applications.
-
-This phase is complete when:
- * There is a client library that is written in an embeddable language (C, Rust, etc..).
- * There is a client library that can performantly serve a mesh of more than 15 peers in a real-world application.
-
-Nice-to-haves for this phase: see the implementation of a WASM and bare metal (embedded) client.
-
-## Phase IV: Finalize v1 Spec
-
-Once a production-grade client exists, the focus will then become documentation. Using the knowledge gained from phases I-III, we will re-write all documentation, possibly using Gitbook or similar services.
-
-Version 1 of the protocol will be considered complete at this phase and the protocol will be considered "ready for production use".
-
-This phase is complete when the "Pigeon Protocol Handbook" is authored. The handbook will be a guide less than 100 pages long, that can be read by a developer from start to finish (as opposed to being referenced) to help them start writing Pigeon applications.
-
-## Phase V: Stabilize, Maintain, Proliferate
-
-With a finalized spec and a portable client library, the next goal is to promote the product to as many developers as possible and continue to author software that is well suited to the protocol.
-
-This phase will be considered complete when there are three production-scale apps using the libraries authored. By this point, we've hopefully made a difference and helped people regain control of their data and find a new alternative to the current status-quo of "online only" computer applications.
-
-After that, I might rename the project so that we arre not tied to the legacy baggage of the prototype phase. It might be fun to apply to a grant for continued maintanence (or just lock down the feature set- it's too early to say).
-
-# Unanswered Questions
-
- * Ephemeral key exchange
- * Standardized general purpose message schemas (follow, unfollow, same_as, etc.)
-
-# The Initial Implementation Should...
-
  * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so. Decoupling a library into a package for only 2 use cases is not acceptable.
+ * Maintain ecosystem diversity by having a protocol that can be easily and entirely ported to new languages and platforms.
+ * No singletons. No signing authorities, no servers of any kind, even locally, no differentiation between peers (eg: no "super peers").
+ * Configuration is always a design comprise. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
  * Assume CPU and RAM are not plentiful.
  * Assume platform has no networking support. No servers. No hooks for startups, shutdowns, or reboots.
  * Assume CPU resources and memory are limited.
@@ -213,35 +140,18 @@ After that, I might rename the project so that we arre not tied to the legacy ba
  * Files are better than sessions.
  * ...but be filesystem agnostic. Persistence mechanisms are implementation-specific.
  * Provide tamper resistance. Privacy features will be added in v2.
- * Be easily ported to new platforms and languages.
  * Enable "Free listening"
  * Have a formal specification (reference implementations are not OK).
  * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
  * Use a serialization format that is deterministic and easy to parse on constrained devices.
+ * Natural is better than simple. Convention over configuration. Do not make plugins for common use cases unless it would hurt portability.
+ * Backwards compatibility. Numerous compromises have been made to support legacy systems, such as devices that lack network support and FAT16 file systems.
 
-# Concepts
+## Non-Goals
 
-**This list is out of date.** Numerous changes and problems were addressed in the implementation of a client. We will update this list in May of 2020.
+ * Extreme configurability.
+ * Networking support at the protocol level (TCP, UDP, SSH, HTTP, Etc..)
 
- * Base64: The protocol will use Base 64 Encoding with URL and Filename Safe Alphabet as specified in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding. Deviations from this will be explicitly noted.
- * Identity: A base64 `ed25519` public key string starting with `@` and ending with `.ed25519`.
- * Message Signature: An ED25519 signature starting with a `%` and end with `.sha256`. Messages (covered later) are referenced by a signature.
- * String: A 1..62 byte list of ASCII characters, Starting and ending with `"`.
- * Blob: Arbitrary binary data, with a current max size of 1.4 MB.
- * Blob Hash: A base64'ed SHA256 of a Blob, starting with `&` and ending with `.sha256`.
- * Pair: One `string` and on of the following: `Blob Hash|Signature|Identity|String`, joined with a `:` character between the two. See "key" and "value" below.
- * Header: A reserved pair of information that is required by the protocol for internal reasons. Not to be confused by a `Pair`, which is user definable. The only Headers the protocol currently uses are `author`, `depth`, `kind`, `prev`. Headers do not have "string quotes" around the key, and the value is delimited by a space (` `) character. Example: `sequence 46`.
- * Key: The value to the left of a `:` in a pair. Always a string.
- * Value: The value to the right of a `:` in a pair. It is always one of the following: `Blob Hash, Signature, Identity, String`.
- * Message: A document with an author, prev, depth, kind, an arbitrary set of attribute pairs and a footer.
- * Footer: ??? TODO ????
- * Signature: ??? TODO ???
- * Kind: A string at the top of a message indicating the message's purpose. Example `"private_message"`, `"mention"`, `"share"`. Kinds may be namespaced by applications using the `.` character.
- * Feed: A linked collection of messages.
- * Null Signature: An ASCII `0` character, used to indicate the first message in a feed (discussed later)
- * Bundle: A specially crafted text archive sent from one peer directly to another peer for the sake of synchronizing and gossiping feeds. Bundles are intricate and require their own document, found [here](bundles.md)
+# Up Next
 
-
-# Running a CLI Client
-
-Pigeon currently has one CLI available. It is written in Ruby. Documentation can be found [here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby)
+This concludes the overview. To learn more, continue to [frequently asked questions](FAQ.md)
