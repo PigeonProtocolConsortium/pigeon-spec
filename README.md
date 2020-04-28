@@ -135,11 +135,9 @@ The [first working implementation of a Pigeon protocol client](https://tildegit.
  * Configuration is always a design comprise. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
  * Assume CPU and RAM are not plentiful.
  * Assume platform has no networking support. No servers. No hooks for startups, shutdowns, or reboots.
- * Assume CPU resources and memory are limited.
  * Assume block storage is plentiful when making resource allocation tradeoffs.
- * Files are better than sessions.
- * ...but be filesystem agnostic. Persistence mechanisms are implementation-specific.
- * Provide tamper resistance. Privacy features will be added in v2.
+ * Files are better than sessions, but be filesystem agnostic. Persistence mechanisms are implementation-specific.
+ * Provide tamper resistance. Privacy features will be added later.
  * Enable "Free listening"
  * Have a formal specification (reference implementations are not OK).
  * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
