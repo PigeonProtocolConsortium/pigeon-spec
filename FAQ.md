@@ -28,4 +28,4 @@ It's different than a block chain despite some similarity. A global blockchain i
 
 # Up Next
 
-This concludes the frequently asked questions section. To learn more, continue to the [roadmap](ROADMAP.md)
+Continue to [Developer Docs and Specification](DEV_DOCS.md)

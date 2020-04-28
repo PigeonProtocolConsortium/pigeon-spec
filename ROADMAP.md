@@ -51,4 +51,4 @@ After that, I might rename the project so that we are not tied to the legacy bag
 
 # Up Next
 
-This concludes the roadmap. To learn more, continue to the [Developer Docs and Specification](DEV_DOCS.md).
+Continue to the [idea bin](IDEAS.md).

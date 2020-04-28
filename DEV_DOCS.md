@@ -28,3 +28,7 @@ Pigeon currently has one CLI available. It is written in Ruby. Documentation can
 # Up Next
 
 This concludes the roadmap. To learn more, continue to the [idea bin](IDEAS.md).
+
+# Up Next
+
+This concludes the frequently asked questions section. To learn more, continue to the [roadmap](ROADMAP.md)
