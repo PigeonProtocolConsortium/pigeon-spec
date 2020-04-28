@@ -45,6 +45,11 @@ Framed in a more applied sense, Pigeon could theoretically support applications 
  * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
  * Sync files over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson
 
+## Implementations
+
+There is currently one working implementation available [here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby).
+A long term goal is to support all major platforms and languages.
+
 ## Prior Art
 
 Pigeon borrows many of the ideas set forth by the [Secure Scuttlebutt protocol](https://ssbc.github.io/scuttlebutt-protocol-guide/). It is my opinion that SSB is one of the most innovative protocols created in recent years. Without the research and efforts of the [Secure Scuttlebutt Consortium](https://github.com/ssbc), this project would not be possible, so a big thanks goes out to all the people who make SSB possible.
