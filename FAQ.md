@@ -19,12 +19,12 @@
 # When is Pigeon the Wrong Choice?
 
  * When the application requires true deletion of data, ephemeral data or mutability of previously created data. Pigeon feeds are immutable, append-only and permanently replicated by peers.
- * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets is unlikely to ever be added to core libraries.
+ * When the application requires realtime interactions or does not benefit from delay tolerance. Support for TCP or UDP sockets will never be added.
  * Extremely "chatty" protocols. Pigeon was built with the assumption that data storage is cheap and data transfer is expensive and slow. Use cases with complex handshakes, pinging or timeouts may not be well suited to this protocol.
 
 # Is This a Blockchain?
 
-It's different than a block chain despite some similarity. A global blockchain is a singleton, and Pigeon has no singletons. Each Pigeon node maintains their own feed of messages rather than sharing a global feed. When you trust a peer, you agree to replicate their feed. You also replicate the feed of their peers. Unlike a blockchain, there are many feeds (rather than one) and they do not require consensus to coexist. Additionally, forking of feeds is not supported by Pigeon.
+It's different than a block chain despite some similarity. A global blockchain is a singleton, and Pigeon has no singletons. Each Pigeon node maintains their own feed of messages rather than sharing a global feed. When you trust a peer, you agree to replicate their feed. You also replicate the feed of their peers. Unlike a blockchain, there are many feeds (rather than one) and they do not require consensus or coordination to coexist. Additionally, forking of feeds is not supported by Pigeon.
 
 # Up Next
 

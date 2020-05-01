@@ -20,6 +20,15 @@ Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedba
  * [Developer Docs and Specification](DEV_DOCS.md)
  * [Ideas and Features](IDEAS.md)
 
+## Help Wanted
+
+If you wish to become involved with protocol development, there are a few areas we need help in currently:
+Email us for more information.
+
+ * Documentation editors, proof readers and feedback.
+ * We need real-world applications to be built using the protocol! We are happy to assist you along the way.
+ * We need a BNF grammar for Pigeon messages.
+
 # Overview
 
 Pigeon can serve a number of use cases. Below are some examples:
@@ -72,20 +81,20 @@ In summary, Pigeon protocol offers benefits above what a traditional sneakernet 
 
 ## How Pigeon Differs From Secure Scuttlebutt (SSB)
 
-As mentioned, Pigeon was inspired mostly by the work of of Secure Scuttlebutt. Pigeon takes a different approach in a few areas, however.
+As mentioned, Pigeon was inspired mostly by the work of Secure Scuttlebutt. Pigeon takes a different approach in a few areas, however.
 
 1. No reliance on networking in the core library. Although SSB is theoretically able to support Sneakernet-only operation, it is difficult in practice due to reliance on UDP, TCP, and in the case of pubs, DNS.
 1. Pigeon uses a custom key/value serialization format instead of JSON. This has two benefits:
     * Serialization and signing is much simpler. Indentation and whitespace are less likely to cause verification problems.
     * Unlike JSON, pigeon messages do not allow nesting, which promotes simplified message schemas.
-1. Pigeon uses Crockford flavored Base32 rather than URL safe Base64. This makes it easier to support old or low powered systems. easier to support FAT16 / embedded systems you might want to have an FAQ section with pretty much this
+1. Pigeon uses Crockford flavored Base32 rather than URL safe Base64. This makes it easier to support old or low powered systems and is easier to support FAT16 / embedded systems.
 1. Pigeon was designed for portability from the beginning. It has a small enough conceptual overhead that it will actually be possible to support platforms other than NodeJS. Complicated features (like network support) are ignored in favor of an easy-to-implement standard
-1. It uses Lipmaa links, so you can verify a feed without downloading all 10,000 messages. This was inspired by the work of the Bamboo protocol.
+1. It uses Lipmaa links, so you can verify a feed without downloading all messages. This was inspired by the work of the Bamboo protocol.
 
 
 ## How Does It Work?
 
-Each node in a swarm of peers has a local "log". The log is an append only feed of messages written in an ASCII-based serialization format. Messages are signed with a secret key to validate a message's integrity and to prevent tampering by untrusted peers. Nodes in the swarm "follow" other logs from peers of interest. Nodes always replicate the logs of their peers and "gossip" information about peers across the swarm. Gossip information is packaged into "bundles" which contain backups of peer logs in an efficient binary format that can be easily transmitted via sneakernet, direct serial connection, or any high throughput medium, regardless of latency.
+Each node in a swarm of peers has a local "log". The log is an append only feed of messages written in an ASCII-based serialization format. Messages are signed with a secret key to validate a message's integrity and to prevent tampering by malicious peers. Nodes in the swarm "follow" other logs from peers of interest. Nodes always replicate the logs of their peers and "gossip" information about peers across the swarm. Gossip information is packaged into "bundles" which contain backups of peer logs in an efficient  format that can be easily transmitted via sneakernet, direct serial connection, or any high throughput medium, regardless of latency.
 
 Log synchronization via Sneakernet is the main use case for Pigeon messages to be transmitted. SD Cards sent via postal mail offer an excellent medium for transmission of Pigeon messages, although any data transfer medium is theoretically possible.
 
@@ -133,13 +142,14 @@ The [first working implementation of a Pigeon protocol client](https://tildegit.
 
 ## Constraints and Design Philosophy
 
- * Support Offline-first by being offline-only. Never incorporate TCP or UDP features ever. Such concerns must be handled by higher-level protocols or by application developers. This is to ensure that the protocol is always a viable option for off-grid use cases.
+ * Offline-first means offline-only. Never incorporate TCP or UDP features ever. Such concerns must be handled by higher-level protocols or by application developers. This is to ensure that the protocol is always a viable option for off-grid use cases.
+ * Natural is better than simple. Convention over configuration. Do not make plugins for common use cases unless it would hurt portability.
  * Prefer a monolithic internal structure. Avoid external dependencies except for limited use cases (Eg: crypto libs). Do not break things into smaller pieces until there are at least three real-world reasons to do so. Decoupling a library into a package for only 2 use cases is not acceptable.
  * Maintain ecosystem diversity by having a protocol that can be easily and entirely ported to new languages and platforms.
  * No singletons. No signing authorities, no servers of any kind, even locally, no differentiation between peers (eg: no "super peers").
- * Configuration is always a design comprise. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
+ * Configuration is always a design compromise. We will allow a limit of 10 configuration options for all eternity. These are simple key/value pairs. No nesting, no namespacing, no dots, no dashes, no nested config names, no arrays, none of that crap. Seriously, I'm watching you.
  * Assume CPU and RAM are not plentiful.
- * Assume platform has no networking support. No servers. No hooks for startups, shutdowns, or reboots.
+ * Assume platform has no networking support. No servers. No hooks for startup, shutdown, or reboot.
  * Assume block storage is plentiful when making resource allocation tradeoffs.
  * Files are better than sessions, but be filesystem agnostic. Persistence mechanisms are implementation-specific.
  * Provide tamper resistance. Privacy features will be added later.
@@ -147,13 +157,14 @@ The [first working implementation of a Pigeon protocol client](https://tildegit.
  * Have a formal specification (reference implementations are not OK).
  * Minimize conceptual overhead (If it's not needed at least 80% of the time, don't add it).
  * Use a serialization format that is deterministic and easy to parse on constrained devices.
- * Natural is better than simple. Convention over configuration. Do not make plugins for common use cases unless it would hurt portability.
  * Backwards compatibility. Numerous compromises have been made to support legacy systems, such as devices that lack network support and FAT16 file systems.
 
 ## Non-Goals
 
- * Extreme configurability.
- * Networking support at the protocol level (TCP, UDP, SSH, HTTP, Etc..)
+ * Networking support: The protocol will make no mention of TCP, UDP, SSH, HTTP, Etc..
+ * Configurability: Configuration is the root of all evil. Instead of trying to create something that serves every use case, focus on >80% use cases and allow edge cases to be handled by application developers.
+ * Anonymity: Though pseudonymity is possible via the use of multiple identities, the concept of anonymity or is not well suited to this protocol. Every message is signed by a known identity, though identities are easily created and can be backed by pseudonyms for privacy.
+ * Encryption. Like many internet protocols, encryption concerns are offloaded to the transport layer. Consider using an encrypted file system or encrypted compression application to store data.
 
 # Up Next
 

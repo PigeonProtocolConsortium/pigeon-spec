@@ -1,24 +1,62 @@
-# Concepts
+# It Starts With a Message...
+
+The most important prtocol concept is that of the "message".
+In their most simple form, Pigeon protocol messages are just ASCII text documents. They are human readable and can even be created by hand in a text editor, though most clients will provide better means of authoring messages.
+
+Below is an example of such a message:
+
+```
+author @MF312A76JV8S1XWCHV1XR6ANRDMPAT2G5K8PZTGKWV354PR82CD0.ed25519
+kind weather_report
+prev %ZV85NQS8B1BWQN7YAME1GB0G6XS2AVN610RQTME507DN5ASP2S6G.sha256
+depth 3
+lipmaa 2
+
+temperature:"22.0C"
+webcam_photo:&FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG.sha256
+weather_reported_by:@0DC253VW8RP4KGTZP8K5G2TAPMDRNA6RX1VHCWX1S8VJ67A213FM.ed25519
+
+signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08.sig.ed25519
+```
+
+Let's explore each line of a message.
+
+### Line 1: `author`
+### Line 2: `kind`
+### Line 3: `prev`
+### Line 4: `depth`
+### Line 5: `lipmaa`
+### Line 6: Empty carriage return (body start)
+### Lines 7: Entry containing a string
+### Lines 8: Entry referencing a blob
+### Lines 9: Entry referencing a peer's identity
+### Lines 10: Empty Carriage Return (footer start)
+### Lines 11: Signature Line
+### Lines 12: Empty Carriage Return (message end)
+
+# Sharing Messages and Blobs via Bundles
+
+# Glossary of Terms
 
 **This list is out of date.** Numerous changes and problems were addressed in the implementation of a client. We will update this list in May of 2020.
 
- * Base64: The protocol will use Base 64 Encoding with URL and Filename Safe Alphabet as specified in [RFC 4648](https://tools.ietf.org/html/rfc4648). The protocol always uses the standard "=" character for padding. Deviations from this will be explicitly noted.
- * Identity: A base64 `ed25519` public key string starting with `@` and ending with `.ed25519`.
- * Message Signature: An ED25519 signature starting with a `%` and end with `.sha256`. Messages (covered later) are referenced by a signature.
- * String: A 1..62 byte list of ASCII characters, Starting and ending with `"`.
- * Blob: Arbitrary binary data, with a current max size of 1.4 MB.
- * Blob Hash: A base64'ed SHA256 of a Blob, starting with `&` and ending with `.sha256`.
- * Pair: One `string` and on of the following: `Blob Hash|Signature|Identity|String`, joined with a `:` character between the two. See "key" and "value" below.
- * Header: A reserved pair of information that is required by the protocol for internal reasons. Not to be confused by a `Pair`, which is user definable. The only Headers the protocol currently uses are `author`, `depth`, `kind`, `prev`. Headers do not have "string quotes" around the key, and the value is delimited by a space (` `) character. Example: `sequence 46`.
- * Key: The value to the left of a `:` in a pair. Always a string.
- * Value: The value to the right of a `:` in a pair. It is always one of the following: `Blob Hash, Signature, Identity, String`.
- * Message: A document with an author, prev, depth, kind, an arbitrary set of attribute pairs and a footer.
- * Footer: ??? TODO ????
- * Signature: ??? TODO ???
- * Kind: A string at the top of a message indicating the message's purpose. Example `"private_message"`, `"mention"`, `"share"`. Kinds may be namespaced by applications using the `.` character.
- * Feed: A linked collection of messages.
- * NONE: ????
- * Bundle: A specially crafted text archive sent from one peer directly to another peer for the sake of synchronizing and gossiping feeds. Bundles are intricate and require their own document, found [here](bundles.md)
+ * Header
+ * Blob
+ * Crockford Base32
+ * NONE
+ * String
+ * Signature
+ * Value
+ * Message
+ * Blob Hash
+ * Key
+ * Pair
+ * Footer
+ * Bundle
+ * Kind
+ * Message Signature
+ * Feed
+ * Identity
 
 
 # Running a CLI Client
@@ -27,8 +65,4 @@ Pigeon currently has one CLI available. It is written in Ruby. Documentation can
 
 # Up Next
 
-This concludes the roadmap. To learn more, continue to the [idea bin](IDEAS.md).
-
-# Up Next
-
-This concludes the frequently asked questions section. To learn more, continue to the [roadmap](ROADMAP.md)
+This concludes the developer documentation. Please email us with questions. To learn more, continue to the [idea bin](IDEAS.md).
