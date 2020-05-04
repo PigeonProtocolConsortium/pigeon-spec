@@ -163,8 +163,8 @@ The [first working implementation of a Pigeon protocol client](https://tildegit.
 
  * Networking support: The protocol will make no mention of TCP, UDP, SSH, HTTP, Etc..
  * Configurability: Configuration is the root of all evil. Instead of trying to create something that serves every use case, focus on >80% use cases and allow edge cases to be handled by application developers.
- * Anonymity: Though pseudonymity is possible via the use of multiple identities, the concept of anonymity or is not well suited to this protocol. Every message is signed by a known identity, though identities are easily created and can be backed by pseudonyms for privacy.
- * Encryption. Like many internet protocols, encryption concerns are offloaded to the transport layer. Consider using an encrypted file system or encrypted compression application to store data.
+ * Anonymity: Though pseudonymity is possible via the use of multiple identities, the concept of anonymity is not well suited to this protocol. Every message is signed by a known identity, though identities are easily created and can be backed by pseudonyms for privacy.
+ * (OPEN TO DISCUSSION) Encryption. Like many internet protocols, encryption concerns are offloaded to the transport layer. Consider using an encrypted file system or encrypted compression application to store data. If you have ideas on how we could support encryption, please contact us. Please keep in mind that anonymity is not necessarily a project goal.
 
 # Up Next
 
