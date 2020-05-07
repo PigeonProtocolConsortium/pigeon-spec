@@ -24,7 +24,42 @@ Please read this document before continuing.
 
 # Bundles: The Transmission Medium
 
-WORK IN PROGRESS.
+Example:
+
+a user exports a bundle that contains a few messages and the following blobs:
+
+```
+&622PRNJ7C0S05XR2AHDPKWMG051B1QW5SXMN2RQHF2AND6J8VGPG.sha256
+&FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG.sha256
+&YPF11E5N9JFVB6KB1N1WDVVT9DXMCHE0XJWBZHT2CQ29S5SEPCSG.sha256
+```
+
+Assuming the user's client follows this specification, the exported bundles strucutre would be laid out as follows on the local filesystem:
+
+```
+├── messages.pgn
+├── 622PRNJ
+│   └── 7C0S05X
+│       └── R2AHDPK
+│           └── WMG051B
+│               └── 1QW5SXM
+│                   └── N2RQHF2
+│                       └── AND6J8V.GPG
+├── FV0FJ0Y
+│   └── ZADY7C5
+│       └── JTTFYPK
+│           └── DBHTZJ5
+│               └── JVVP5TC
+│                   └── KP0605W
+│                       └── WXYJG4V.MRG
+└── YPF11E5
+    └── N9JFVB6
+        └── KB1N1WD
+            └── VVT9DXM
+                └── CHE0XJW
+                    └── BZHT2CQ
+                        └── 29S5SEP.CSG
+```
 
 # Up Next
 
