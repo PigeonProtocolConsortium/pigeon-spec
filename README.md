@@ -2,13 +2,19 @@
 
 ## Pigeon - The Off Grid Peer-to-Peer Protocol
 
-A synchronizing peer-to-peer messaging protocol that is:
+**Who Uses Pigeon and Why?** Pigeon is used by software developers building peer-to-peer apps. It is particularly useful for peer-to-peer apps that have poor internet connectivity or no connectivity at all. Pigeon provides these developers a way to store and replicate (backup) their nodes data while eliminating the need for networks like the internet and preventing interference from malicious third parties.
+
+Pigeon is:
 
  * decentralized (peer-to-peer)
  * replicated
  * tamper-resistant
  * delay tolerant
  * built for [sneakernet](https://en.wikipedia.org/wiki/Sneakernet) from the ground up
+
+Every user in the mesh has a local database. Entries in the database are cryptographically signed. Because the entries are signed, you can share your database entries anywhere (CD-R, email, public forums, [USB dead drops](https://en.wikipedia.org/wiki/USB_dead_drop)) knowing that the message has not been altered by malicious third parties.
+
+When you "follow" a peer, you keep a backup copy of their database on your machine and update the data occasionally via the use of "bundle" files. This replicated data can then be "gossiped" to peers that need to read the data when the other peer is not available.
 
 Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedback is solicited and appreciated. I will reply to all messages sent.
 
@@ -25,7 +31,7 @@ Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedba
 If you wish to become involved with protocol development, there are a few areas we need help in currently:
 Email us for more information.
 
- * Documentation editors, proof readers and feedback.
+ * Documentation editors, proof readers and feedback. The feedback really matter. Please email me your opinions and ideas. I will reply to all messages.
  * We need real-world applications to be built using the protocol! We are happy to assist you along the way.
  * We need a BNF grammar for Pigeon messages.
 
@@ -45,9 +51,10 @@ Framed in a more applied sense, Pigeon could theoretically support applications 
 
  * A messenger app
  * An IoT data logger
- * A newsgroup / NNTP analog
+ * A newsgroup / [NNTP](https://en.wikipedia.org/wiki/Network_News_Transfer_Protocol) analog
  * A turn-based board game
  * A microblogging social network
+ * An e-commerce application for P2P cryptocurrency users
  * Secure Scuttlebutt import / export / gateway tool
  * A social mapping / point-of-interest sharing site
  * Bluetooth file sharing app
