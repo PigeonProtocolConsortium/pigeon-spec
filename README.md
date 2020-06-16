@@ -2,40 +2,29 @@
 
 ## Pigeon - The Off Grid Peer-to-Peer Protocol
 
-**Who Uses Pigeon and Why?** Pigeon is used by software developers building peer-to-peer apps. It is particularly useful for peer-to-peer apps that have poor internet connectivity or no connectivity at all. Pigeon provides these developers a way to store and replicate (backup) their nodes data while eliminating the need for networks like the internet and preventing interference from malicious third parties.
+ * Overview (You are Here)
+ * [Frequently Asked Questions](faq.md)
+ * [Roadmap](roadmap.md)
+ * [Developer Docs and Specification](dev_docs.md)
+ * [Ideas and Features](ideas.md)
 
-Pigeon is:
+# Who Uses Pigeon? Why?
 
- * decentralized (peer-to-peer)
- * replicated
- * tamper-resistant
- * delay tolerant
- * built for [sneakernet](https://en.wikipedia.org/wiki/Sneakernet) from the ground up
+Pigeon is used by software developers building peer-to-peer apps. It is particularly useful for peer-to-peer apps that have poor internet connectivity or no connectivity at all. Pigeon provides these developers a way to store and replicate (backup) their nodes data while eliminating the need for networks like the internet and preventing interference from malicious third parties.
 
 Every user in the mesh has a local database. Entries in the database are cryptographically signed. Because the entries are signed, you can share your database entries anywhere (CD-R, email, public forums, [USB dead drops](https://en.wikipedia.org/wiki/USB_dead_drop)) knowing that the message has not been altered by malicious third parties.
 
 When you "follow" a peer, you keep a backup copy of their database on your machine and update the data occasionally via the use of "bundle" files. This replicated data can then be "gossiped" to peers that need to read the data when the other peer is not available.
 
-Email `contact` at `vaporsoft.xyz` to ask questions or get involved. Your feedback is solicited and appreciated. I will reply to all messages sent.
+In summary, Pigeon is:
 
-## Contents
+ * decentralized (peer-to-peer)
+ * replicated by default
+ * tamper and forgery resistant
+ * delay tolerant and offline-first
+ * built for [sneakernet](https://en.wikipedia.org/wiki/Sneakernet) from the ground up
 
- * Overview (You are Here)
- * [Frequently Asked Questions](FAQ.md)
- * [Roadmap](ROADMAP.md)
- * [Developer Docs and Specification](DEV_DOCS.md)
- * [Ideas and Features](IDEAS.md)
-
-## Help Wanted
-
-If you wish to become involved with protocol development, there are a few areas we need help in currently:
-Email us for more information.
-
- * Documentation editors, proof readers and feedback. The feedback really matter. Please email me your opinions and ideas. I will reply to all messages.
- * We need real-world applications to be built using the protocol! We are happy to assist you along the way.
- * We need a BNF grammar for Pigeon messages.
-
-# Overview
+# Use Cases and Real-World Applications
 
 Pigeon can serve a number of use cases. Below are some examples:
 
@@ -60,6 +49,14 @@ Framed in a more applied sense, Pigeon could theoretically support applications 
  * Bluetooth file sharing app
  * A GUI database browser for developers that wish to use the protocol for log storage or as a time series DB
  * Sync files over actual pigeons, possibly soliciting help from world famous boxer and pigeon racing enthusiast Mike Tyson
+
+## Help Wanted
+
+If you wish to become involved with protocol development, there are a few areas we need help in currently. Email us for more information.
+
+ * Documentation editors, proof readers and feedback. The feedback really matters. Please email me your opinions and ideas. I will reply to all messages.
+ * We need real-world applications to be built using the protocol! We are happy to assist you along the way.
+ * We need a BNF grammar for Pigeon messages.
 
 ## Implementations
 
@@ -175,4 +172,4 @@ The [first working implementation of a Pigeon protocol client](https://tildegit.
 
 # Up Next
 
-This concludes the overview. To learn more, continue to [frequently asked questions](FAQ.md)
+This concludes the overview. To learn more, continue to [frequently asked questions](faq.md)
