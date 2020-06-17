@@ -9,26 +9,26 @@ classDiagram
   }
 
 	class Example1{
-    author USER.R68Q2...9AZJ0
+    author USER.R68...ZJ0
     depth 0
-    kind my_example
+    kind my_blog
     lipmaa NONE
     prev NONE
 
-    foo:"bar"
+    current_status:"Another great day. Nice weather, too!"
 
-    signature 2VMAG4...TAC2R
+    signature 2VMAG...TAC2R
 	}
 
 	class Example2{
-    author USER.R68Q2...F9AZJ0
+    author USER.R68...ZJ0
     depth 1
-    kind another_example
+    kind like_a_post
     lipmaa NONE
-    prev TEXT.6CBA4...NVZC0
+    prev TEXT.6CB...ZC0
 
-    bar:"baz"
+    liked_post_multihash:TEXT.6CB...ZC0
 
-    signature Y34Q4...6EM10
+    signature Y34Q47...6EM10
 	}
 ```

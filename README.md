@@ -134,16 +134,16 @@ A long term goal is to support all major platforms and languages.
 
 # How does the Pigeon protocol work?
 
-Each node in a swarm of peers has a local "log". The log is an
+Each node in a social network of peers has a local "log". The log is an
 append-only feed of messages written in an ASCII-based serialization
 format.
 
 Messages are signed with a secret key to validate a message's
 integrity and to prevent tampering by malicious peers.
 
-Nodes in the swarm "follow" other logs from peers. Nodes replicate the
+Nodes in the social network "follow" other logs from peers. Nodes replicate the
 logs of their peers and "gossip" information about peers across the
-swarm.
+social network.
 
 Gossip information is packaged into "bundles" which contain backups of
 peer logs in a format that can be transmitted through sneakernet,
@@ -171,11 +171,11 @@ written by hand.
 ```
 author USER.R68Q26P1GEFC0SNVVQ9S29SWCVVRGCYRV7D96GAN3XVQE3F9AZJ0
 depth 0
-kind my_example
+kind my_blog
 lipmaa NONE
 prev NONE
 
-foo:"bar"
+current_status:"Another great day. Nice weather, too!"
 
 signature 2VMAG4SCX5RHVBKCB1RNZCB0AJN4WN6FEMS7W9FM1CVYSZXMX7CPQFCDPYEKCTGG91Y1YSGY4G5K8XAGQ67HEPDFRMRYQHWQBATAC2R
 
@@ -186,11 +186,11 @@ signature 2VMAG4SCX5RHVBKCB1RNZCB0AJN4WN6FEMS7W9FM1CVYSZXMX7CPQFCDPYEKCTGG91Y1YS
 ```
 author USER.R68Q26P1GEFC0SNVVQ9S29SWCVVRGCYRV7D96GAN3XVQE3F9AZJ0
 depth 1
-kind another_example
+kind like
 lipmaa NONE
 prev TEXT.6CBA4J3756A5SNM1W1GHNCTT9EG95ZP3ZMAT5Z1EJP7TXMNNVZC0
 
-bar:"baz"
+liked_post_multihash:TEXT.6CBA4J3756A5SNM1W1GHNCTT9EG95ZP3ZMAT5Z1EJP7TXMNNVZC0
 
 signature Y34Q47V0BY370RM5KWGRJRN9HFNGJN0C3DEYVB2V2476CW9RN5HD4XD7KMQ6T4T42N36R5P3XX6E3FYEWVZR25AVCF6KQPZHJP6EM10
 
@@ -198,7 +198,7 @@ signature Y34Q47V0BY370RM5KWGRJRN9HFNGJN0C3DEYVB2V2476CW9RN5HD4XD7KMQ6T4T42N36R5
 
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
 
-For my real-world examples of the messages, see the Ruby-implementation tutorial
+For examples of how messages are handled, see the Ruby-implementation tutorial
 [here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby/src/branch/master/ruby_tutorial.md)
 
 # Constraints and Design Philosophy
@@ -255,8 +255,7 @@ For my real-world examples of the messages, see the Ruby-implementation tutorial
    on constrained devices.
 
  * Backwards compatibility. Numerous compromises have been made to
-   support legacy systems, such as devices that lack network support
-   and FAT16 file systems.
+   support legacy systems, such as devices that use FAT16 file systems or lack network support.
 
 # What the Pigeon protocol is not trying to address
 
