@@ -22,10 +22,11 @@ signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6N
 
 Pigeon has 4 data types:
 
- * Message multihash
- * Blob multihash
- * User multihash
- * String
+ * Blob multihash: Used to identify arbitrary binary files mentioned in a feed. Blob multihashes start with the word `FILE.`, followed by a Base32 hash (SHA256).
+ * Message multihash: Used to reference a message in someone's feed. Starts with the word `TEXT.` followed by a Base32 SHA256 checksum.
+ * User multihash: Used to reference a particular feed. Starts with the word `USER.` followed by a base32 encoded ED25519 public key.
+ * String: Information shorter than 128 characters can be wrapped in "double quotes" and placed directly into messages. Larger strings must be converted to blobs.
+ * None: The word "NONE" is used to indicate the absence of data, similarly to `null` or `nil` seen in some programming languages.
 
 ### Parts of a Message
 
@@ -39,31 +40,33 @@ The parts of a message must follow the order specified.
 
 ### Parts of a Header
 
-A header is the first part of a message and contains 5 subsections:
+A header is the first part of a message and contains 5 subsections. Each of these sections will be explained in further detail in the sections that follow:
 
- 1. `author`: A
- 1. `depth`:
- 1. `kind`:
- 1. `lipmaa`:
- 1. `prev`:
+ 1. `author`: A user multihash indicating the author of the message. The public key will be used to verify the signature (found in the footer)
+ 1. `depth`: The order number of the current message. Since feeds are append-only, this number will only increase. The `depth` field ensures unique message signatures, even for successive duplicate messages.
+ 1. `kind`: Used by applications to determine the intent or "shape" of a message.
+ 1. `lipmaa`: A [lipmaa link](https://github.com/AljoschaMeyer/bamboo#links-and-entry-verification). Points to a previous message multihash in the same feed that is computed using a [special function](https://kodu.ut.ee/~lipmaa/papers/thesis/thesis.pdf). Some day, this will allow for partial verification of feeds. The field is currently required and verified for correctness, but it is not used in any clients.
+ 1. `prev`: The multihash of the previous message in the feed. Required for verifying the authenticity of a feed.
+
+
+**Header entries must follow the order specified above.**
 
 ### Line 1: `Author`
 
 EXAMPLE:
 
 ```
-author @MF312A76JV8S1XWCHV1XR6ANRDMPAT2G5K8PZTGKWV354PR82CD0.ed25519
+author USER.4CZHSZAH8473YPHP1F1DR5ZVCRKEA4Q0BY18NMXYE14NZ0XV2PGG
 ```
 
 The first line of a Pigeon message header is the `author` entry.
 
-Every Pigeon database has an "identity". An identity is an ED25519 key pair that prevents tampering by parties other than the database owner. An identity is publicly referenced using a "multihash". In the example above, the identity multihash was `@MF312A76JV8S1XWCHV1XR6ANRDMPAT2G5K8PZTGKWV354PR82CD0.ed25519`.
+Every Pigeon database has an "identity". An identity is an ED25519 key pair that prevents tampering by parties other than the database owner. In the example above, the identity multihash was `USER.4CZHSZAH8473YPHP1F1DR5ZVCRKEA4Q0BY18NMXYE14NZ0XV2PGG`.
 
 The steps to generate a valid identity are:
 
 1. Perform [Crockford Base32 encoding](https://www.crockford.com/base32.html) on an ED25519 public key.
-2. Add an `@` symbol to the beginning of the string from step 1.
-3. Add a `.ed25519` string to the end of the string from step 2.
+2. Concatenate the characters `FEED.` to the beginning of the string from step 1.
 
 ### Line 2: `Kind`
 
@@ -81,21 +84,19 @@ It must meet the following criteria:
  * Cannot contain whitespace or control characters
  * May contain any of the following characters:
     * alphanumeric characters
-    * dashes (`-`)
-    * underscores (`_`)
-    * Symbols used for multihashes, such as `@`, `&` and `%` (covered later).
+    * dashes (`-`), underscores (`_`) and dots (`.`)
 
 ### Line 3: `Prev`
 
 EXAMPLE:
 
 ```
-prev %ZV85NQS8B1BWQN7YAME1GB0G6XS2AVN610RQTME507DN5ASP2S6G.sha256
+prev TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G
 ```
 
 A Pigeon message feed is a unidirectional chain of documents where the newest document points back to the document that came before it in the chain ([example diagram](diagram1.png)).
 
-To create this chain, a Pigeon message uses the `prev` field. The `prev` field contains a message multihash. In this case, the multihash is `%ZV85NQS8B1BWQN7YAME1GB0G6XS2AVN610RQTME507DN5ASP2S6G.sha256`.
+To create this chain, a Pigeon message uses the `prev` field. The `prev` field contains a message multihash. In this case, the multihash is `TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G`.
 
 Messages are content addressed. This is in contrast to protocols such as HTTP which use names to identify resources. Because Pigeon messages are addressed by content rather than by name, changing a message's content, even by just one character, has the effect of completely changing the message's multihash.
 
@@ -103,9 +104,8 @@ Messages are content addressed. This is in contrast to protocols such as HTTP wh
 
 Message multihashes are calculated as follows:
 
-1. The first character is a `%` symbol, indicating that it is a `message` rather than an `identity`, `blob` or `string`.
-2. The next 52 characters are a [Crockford base 32](https://www.crockford.com/base32.html) SHA512 hash of the previous message's content.
-3. The message multihash ends in `.sha512`.
+1. Create a [Crockford base 32](https://www.crockford.com/base32.html) sha256 hash of the message's content.
+2. Append the string `TEXT.` to the front of the checksum created in step 1.
 
 ### Line 4: `Depth`
 
@@ -115,13 +115,11 @@ EXAMPLE:
 depth 3
 ```
 
-Pigeon messages exist in a linear sequence which only moves forward and never "forks".
+Pigeon messages exist in a linear sequence which only moves forward and never "forks", skips or moves backward.
 Every message has a `depth` field to indicate its "place in line".
 Because every message has an ever-increasing integer that never duplicates, every message in a Pigeon feed will have a unique hash. This is true even if messages have identical body content.
 
 ### Line 5: `Lipmaa`
-
-**THIS FIELD WAS WRITTEN INCORRECTLY. THIS WILL CHANGE SOON. YOU CAN SAFELY MOVE TO THE NEXT SECTION OF THE DOCS**
 
 This concept was borrowed from the [Bamboo protocol](https://github.com/AljoschaMeyer/bamboo#links-and-entry-verification) and [Helger Lipmaa's thesis](https://kodu.ut.ee/~lipmaa/papers/thesis/thesis.pdf).
 
@@ -129,35 +127,42 @@ The `lipmaa` field (often called a "Lipmaa Link") is a special kind of `prev` fi
 
 ![](lipmaa.png)
 
-The `lipmaa` field is calculated as follows:
+The `lipmaa` field is calculated using the function below. If the function returns an integer, the lipmaa link for the given message is the message multihash of the message with that depth. For example, if the function returns 17, the `lipmaa` will contain the multihash of message number 17 in the current feed:
 
 ```ruby
-def lipmaa(n)
-  # The original lipmaa function returns -1 for 0
-  # but that does not mesh well with our serialization
-  # scheme. Comments welcome on this one.
-  return 0 if n < 1 # Prevent -1, division by zero etc..
+    def lipmaa(n)
+      # The original lipmaa function returns -1 for 0
+      # but that does not mesh well with our serialization
+      # scheme. Comments welcome on this one.
+      if n < 1 # Prevent -1, division by zero etc..
+        return nil
+      end
 
-  m, po3, x = 1, 3, n
-  # find k such that (3^k - 1)/2 >= n
-  while (m < n)
-    po3 *= 3
-    m = (po3 - 1) / 2
-  end
-  po3 /= 3
-  # find longest possible back-jump
-  if (m != n)
-    while x != 0
-      m = (po3 - 1) / 2
+      m, po3, x = 1, 3, n
+      # find k such that (3^k - 1)/2 >= n
+      while (m < n)
+        po3 *= 3
+        m = (po3 - 1) / 2
+      end
       po3 /= 3
-      x %= m
+      # find longest possible backjump
+      if (m != n)
+        while x != 0
+          m = (po3 - 1) / 2
+          po3 /= 3
+          x %= m
+        end
+        if (m != po3)
+          po3 = m
+        end
+      end
+      result = n - po3
+      if result == n - 1
+        return nil
+      else
+        return result
+      end
     end
-    if (m != po3)
-      po3 = m
-    end
-  end
-  return n - po3
-end
 ```
 
 ### Line 6: Body Start (Empty Line)
@@ -215,7 +220,7 @@ A blob is referenced in a message's key or value. A client will include a blob's
 EXAMPLE:
 
 ```
-weather_reported_by:@0DC253VW8RP4KGTZP8K5G2TAPMDRNA6RX1VHCWX1S8VJ67A213FM.ed25519
+weather_reported_by:@0DC253VW8RP4KGTZP8K5G2TAPMDRNA6RX1VHCWX1S8VJ67A213FM
 ```
 
 A message may reference other identities (or its own identity) by using an identity sigil either in the key or value portion of the entry.
@@ -231,11 +236,11 @@ The footer is essential for ensuring the tamper resistant properties of a Pigeon
 EXAMPLE:
 
 ```
-signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08.sig.ed25519
+signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08.sig
 ```
 
 A signature starts with the word `signature` followed by a space.
 After that, the body (including the trailing `\n`) is signed using the author's ED25519 key.
 The signature is encoded with Crockford base 32.
-The signature ends with `.sig.ed25519`.
+The signature ends with `.sig`.
 An empty carraige return is added after the signature line.
