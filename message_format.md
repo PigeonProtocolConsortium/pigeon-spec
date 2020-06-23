@@ -5,18 +5,47 @@ In the test that follows, we will explore a pigeon message line-by-line.
 The example message is shown in its entirety below:
 
 ```
-author @MF312A76JV8S1XWCHV1XR6ANRDMPAT2G5K8PZTGKWV354PR82CD0.ed25519
+author USER.4CZHSZAH8473YPHP1F1DR5ZVCRKEA4Q0BY18NMXYE14NZ0XV2PGG
+depth 123
 kind weather_report
-prev %ZV85NQS8B1BWQN7YAME1GB0G6XS2AVN610RQTME507DN5ASP2S6G.sha256
-depth 3
-lipmaa 2
+lipmaa TEXT.7ZKXANAAM31R9AMHMBVGP9Q5BF5HSCP557981VQHBTRYETGTGAK0
+prev TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G
 
 temperature:"22.0C"
-webcam_photo:&FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG.sha256
-weather_reported_by:@0DC253VW8RP4KGTZP8K5G2TAPMDRNA6RX1VHCWX1S8VJ67A213FM.ed25519
+webcam_photo:FILE.FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG
+weather_reported_by:USER.GGP2VX0ZN41EYXMN81YB0Q4AEKRCVZ5RD1F1PHPY3748HAZSHZC4
 
-signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08.sig.ed25519
+signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08
 ```
+
+### Pigeon Multihashes and Data Types
+
+Pigeon has 4 data types:
+
+ * Message multihash
+ * Blob multihash
+ * User multihash
+ * String
+
+### Parts of a Message
+
+The three parts of a Pigeon message are:
+
+1. Header: Data that is used by the _protocol_
+2. Body: Data that is used by the _user or application_
+3. Footer: Cryptographic signature to prevent tampering or forgery.
+
+The parts of a message must follow the order specified.
+
+### Parts of a Header
+
+A header is the first part of a message and contains 5 subsections:
+
+ 1. `author`: A
+ 1. `depth`:
+ 1. `kind`:
+ 1. `lipmaa`:
+ 1. `prev`:
 
 ### Line 1: `Author`
 

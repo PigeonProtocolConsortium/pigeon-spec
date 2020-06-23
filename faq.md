@@ -25,7 +25,3 @@
 # Is This a Blockchain?
 
 It's different than a block chain despite some similarity. A global blockchain is a singleton, and Pigeon has no singletons. Each Pigeon node maintains their own feed of messages rather than sharing a global feed. When you trust a peer, you agree to replicate their feed. You also replicate the feed of their peers. Unlike a blockchain, there are many feeds (rather than one) and they do not require consensus or coordination to coexist. Additionally, forking of feeds is not supported by Pigeon.
-
-# Up Next
-
-Continue to [Developer Docs and Specification](DEV_DOCS.md)

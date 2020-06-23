@@ -47,8 +47,3 @@ With a finalized spec and a portable client library, the next goal is to promote
 This phase will be considered complete when there are three production-scale apps using the libraries authored. By this point, we've hopefully made a difference and helped people regain control of their data and find a new alternative to the current status-quo of "online only" computer applications.
 
 After that, I might rename the project so that we are not tied to the legacy baggage of the prototype phase. It might be fun to apply to a grant for continued maintenance (or just lock down the feature set- it's too early to say).
-
-
-# Up Next
-
-Continue to the [idea bin](IDEAS.md).
