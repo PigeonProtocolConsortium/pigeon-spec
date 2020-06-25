@@ -180,12 +180,11 @@ Some notes about body entries:
     * alphanumeric characters (a-z, A-Z, 0-9)
     * dashes (`-`)
     * underscores (`_`)
-    * Symbols used for multihashes, such as `@`, `&` and `%` (covered later).
  * A value may be a:
    * A string (128 characters or less)
-   * A multihash referencing an identity (`@`), a message (`%`) or a blob (`&`).
+   * A multihash referencing an identity (`USER.`), a message (`TEXT.`) or a blob (`FILE.`).
 
-### Lines 7: Entry Containing a String
+### Lines 7: Example Entry Containing a String
 
 EXAMPLE:
 
@@ -193,37 +192,36 @@ EXAMPLE:
 temperature:"22.0C"
 ```
 
-Body entries are defined by user and contain key/value pairs of application-specific data.
+Body entries are defined by the user and contain key/value pairs of application-specific data.
 When a key/value pair represents something other than an identity, blob or message ID, a string is used.
 Strings can be used for any type of data that does not fit into the other three categories.
 Strings must be less than or equal to 128 characters in length.
 The example above is the most simple kind of body entry. It specifies an arbitrary string representing the current temperature.
+
+The protocol does not dictate the format of strings (ie: there is no 1st class JSON support). The meaning and formatting of a string is the responsibility of the application.
 
 ### Lines 8: Entry Referencing a Blob
 
 EXAMPLE:
 
 ```
-webcam_photo:&FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG.sha256
+webcam_photo:FILE.FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG
 ```
 
 Applications may attach files to messages in the form of blobs. Blobs are referenced using a blob multihash.
 
- * Starts with a `&` character.
- * Ends with `.sha256`
- * Contains exactly 52 characters between the `&` and `.sha256` parts. This is a SHA256 hash of the blob's content, represented in Crockford Base 32 encoding.
-
-A blob is referenced in a message's key or value. A client will include a blob's content in a "bundle" (explained later).
+A blob is referenced in a message's key or value. A client will include a blob's content in a "bundle" (explained later). This ensures that a feed's peers get a copy of the file that a message references.
 
 ### Lines 9: Entry Referencing a Peer's Identity
 
 EXAMPLE:
 
 ```
-weather_reported_by:@0DC253VW8RP4KGTZP8K5G2TAPMDRNA6RX1VHCWX1S8VJ67A213FM
+weather_reported_by:USER.GGP2VX0ZN41EYXMN81YB0Q4AEKRCVZ5RD1F1PHPY3748HAZSHZC4
 ```
 
-A message may reference other identities (or its own identity) by using an identity sigil either in the key or value portion of the entry.
+A message may reference other identities (or its own identity) by using an identity multihash either in the key or value portion of the entry.
+
 This is analogous to "social tagging" seen in many social networks.
 
 ### Lines 10: Empty Carriage Return (Footer Start)
@@ -236,11 +234,10 @@ The footer is essential for ensuring the tamper resistant properties of a Pigeon
 EXAMPLE:
 
 ```
-signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08.sig
+signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6NDATGE6NH3W59QY35M58YDQC5WEA1ASW08
 ```
 
 A signature starts with the word `signature` followed by a space.
 After that, the body (including the trailing `\n`) is signed using the author's ED25519 key.
 The signature is encoded with Crockford base 32.
-The signature ends with `.sig`.
-An empty carraige return is added after the signature line.
+An empty carriage return is added after the signature line.
