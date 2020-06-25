@@ -2,9 +2,9 @@
 
 # The Pigeon protocol
 
-The Pigeon protocol is a off-grid, serverless, peer-to-peer protocol
+The Pigeon protocol is an off-grid, serverless, peer-to-peer protocol
 for building software that works on poor internet connections, or
-offline.
+entirely offline.
 
 # Table of contents
 
