@@ -365,8 +365,8 @@ ideas at `contact at vaporsoft.xyz`. I will reply to all messages.
 
 Check out the following links:
 
-* (WIP) [Developer Docs and Specification](dev_docs.md)
-* (WIP) [Message Format Specification](message_format.md)
+* [Message Format Specification](message_format.md)
+* [Bundle Format Specification](dev_docs.md)
 * [Frequently Asked Questions](faq.md)
 * [Roadmap](roadmap.md)
 * [Ideas and Features](ideas.md)
