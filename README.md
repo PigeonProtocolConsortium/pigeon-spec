@@ -350,6 +350,8 @@ to allow for partial verification of message feeds.
 
 # Getting involved with the Pigeon protocol development
 
+**PIGEON PROTOCOL DEVELOPERS MAILING LIST:** Send an email with "subscribe" in the subject line to `pigeon_developers@vaporsoft.xyz`.
+
 If you want to be involved with the Pigeon protocol development, there
 are areas we need help in currently:
 

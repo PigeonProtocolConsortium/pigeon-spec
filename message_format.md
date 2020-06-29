@@ -66,7 +66,7 @@ Every Pigeon database has an "identity". An identity is an ED25519 key pair that
 The steps to generate a valid identity are:
 
 1. Perform [Crockford Base32 encoding](https://www.crockford.com/base32.html) on an ED25519 public key.
-2. Concatenate the characters `FEED.` to the beginning of the string from step 1.
+2. Concatenate the characters `USER.` to the beginning of the string from step 1.
 
 ### Line 2: `Kind`
 
