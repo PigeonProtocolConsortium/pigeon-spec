@@ -372,3 +372,17 @@ Check out the following links:
 * [Frequently Asked Questions](faq.md)
 * [Roadmap](roadmap.md)
 * [Ideas and Features](ideas.md)
+
+TODO:
+
+ * Specify how headers are sorted (%TQbh/Z7Wpsa8rhsvyYwPWpdQ4HMrw3Ka7b3sbHBRmTk=.sha256)
+ * Clarification: Is a string character always one character, regardless of bytes? (Kas)
+ * Specify where `depth` starts (Cinnamon)
+ * Specify if `depth` allows gaps (Cinnamon)
+ * Specify if body strings not allowed to contain characters like newlines, null bytes, UTF-8 stuff? Can they contain an escaped double quote \"?
+ * Specify how many keys can a message have
+ * Specify if the signature includes the headers also, or just the body.
+ * Explain what free listening is for SSB outsiders.
+ * Explain what forking is and why it is not supported.
+ * Question: "How do apps find what they need in the Pigeon feeds and/or accumulate state forward? Is this the responsibility of the Pigeon libraries, or do apps do it themselves?"
+ * Explain how verification happens (Soapdog)
