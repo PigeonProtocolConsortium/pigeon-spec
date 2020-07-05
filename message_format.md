@@ -36,7 +36,7 @@ The three parts of a Pigeon message are:
 2. Body: Data that is used by the _user or application_
 3. Footer: Cryptographic signature to prevent tampering or forgery.
 
-The parts of a message must follow the order specified.
+**The parts of a message must follow the order specified in this document.** The order of headers is not user definable. The fact that headers are alphabetical is a coincidence and future versions of the protocol might not be alphabetized.
 
 ### Parts of a Header
 
@@ -68,7 +68,19 @@ The steps to generate a valid identity are:
 1. Perform [Crockford Base32 encoding](https://www.crockford.com/base32.html) on an ED25519 public key.
 2. Concatenate the characters `USER.` to the beginning of the string from step 1.
 
-### Line 2: `Kind`
+### Line 2: `Depth`
+
+EXAMPLE:
+
+```
+depth 3
+```
+
+Pigeon messages exist in a linear sequence which only moves forward and never "forks", skips or moves backward.
+Every message has a `depth` field to indicate its "place in line".
+Because every message has an ever-increasing integer that never duplicates, every message in a Pigeon feed will have a unique hash. This is true even if messages have identical body content.
+
+### Line 3: `Kind`
 
 EXAMPLE:
 
@@ -86,20 +98,6 @@ It must meet the following criteria:
     * alphanumeric characters
     * dashes (`-`), underscores (`_`) and dots (`.`)
 
-### Line 3: `Prev`
-
-EXAMPLE:
-
-```
-prev TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G
-```
-
-A Pigeon message feed is a unidirectional chain of documents where the newest document points back to the document that came before it in the chain ([example diagram](diagram1.png)).
-
-To create this chain, a Pigeon message uses the `prev` field. The `prev` field contains a message multihash. In this case, the multihash is `TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G`.
-
-Messages are content addressed. This is in contrast to protocols such as HTTP which use names to identify resources. Because Pigeon messages are addressed by content rather than by name, changing a message's content, even by just one character, has the effect of completely changing the message's multihash.
-
 **For the first message of a feed, this value is set to `NONE`.**
 
 Message multihashes are calculated as follows:
@@ -107,19 +105,7 @@ Message multihashes are calculated as follows:
 1. Create a [Crockford base 32](https://www.crockford.com/base32.html) sha256 hash of the message's content.
 2. Append the string `TEXT.` to the front of the checksum created in step 1.
 
-### Line 4: `Depth`
-
-EXAMPLE:
-
-```
-depth 3
-```
-
-Pigeon messages exist in a linear sequence which only moves forward and never "forks", skips or moves backward.
-Every message has a `depth` field to indicate its "place in line".
-Because every message has an ever-increasing integer that never duplicates, every message in a Pigeon feed will have a unique hash. This is true even if messages have identical body content.
-
-### Line 5: `Lipmaa`
+### Line 4: `Lipmaa`
 
 This concept was borrowed from the [Bamboo protocol](https://github.com/AljoschaMeyer/bamboo#links-and-entry-verification) and [Helger Lipmaa's thesis](https://kodu.ut.ee/~lipmaa/papers/thesis/thesis.pdf).
 
@@ -164,6 +150,21 @@ The `lipmaa` field is calculated using the function below. If the function retur
       end
     end
 ```
+
+### Line 5: `Prev`
+
+EXAMPLE:
+
+```
+prev TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G
+```
+
+A Pigeon message feed is a unidirectional chain of documents where the newest document points back to the document that came before it in the chain ([example diagram](diagram1.png)).
+
+To create this chain, a Pigeon message uses the `prev` field. The `prev` field contains a message multihash. In this case, the multihash is `TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G`.
+
+Messages are content addressed. This is in contrast to protocols such as HTTP which use names to identify resources. Because Pigeon messages are addressed by content rather than by name, changing a message's content, even by just one character, has the effect of completely changing the message's multihash.
+
 
 ### Line 6: Body Start (Empty Line)
 
