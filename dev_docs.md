@@ -1,7 +1,31 @@
+# Fundamental Concept: Free Listening
+
+The concept of "Free Listening" is mentioned often when developing the protocol. The original concept is borrowed from the Secure Scuttlebutt protocol and is well summarized in [a 2018 work by Andre Staltz](https://staltz.com/reinvent-the-social-web.html):
+
+```
+Pull is the opposite of push. Instead of realtime push notifications, you choose when you want to get updates about new content. Instead of free speech, as in the right to broadcast, we value free listening, which is the right not to be shouted at. Most social networks allow people to basically insert—push—themselves into a community. But Scuttlebutt invites are the other way around: someone in the community has to pull you in.
+
+We are not proponents of total self-reliance. With full independence, you’d just be a lonely node in your social graph. The real value of the social graph is not the amount of nodes, it’s the amount of edges. They represent dependence on each other.
+
+Your friend is your backup, literally. If you happen to lose all your data because your computer explodes, all you need is your crypto key pair, your identity, which is a small file. Then you can re-download everything you said and liked and did from a friend nearby. Nothing will be lost. This happened to someone in the community, and we were pleasantly surprised how well it worked.
+```
+
+Pigeon has many of the same goals as Secure Scuttlebutt, including the user's right to Free Listening. Keep this in mind as you navigate the various design decisions and compromises of the protocol.
+
+# Fundamental Concept: Content Addressing
+
+Pigeon Protocol relies heavily on content addressing and the SHA-512 hashing algorithm. This means that instead of assigning arbitrary or user-generated names to resources (as is the case with web addresses), names are assigned using the SHA-512 hash algorithm.
+
+Please watch [this video] if you are unfamiliar with hashing algorithms.
+
+# Fundamental Concept: Digital Signatures
+
+Pigeon uses [ED25519](https://ed25519.cr.yp.to/) to generate and verify message signatures. An understanding of digital signing algorithms is assumed. If you need help understanding this concept, please contact us on the mailing list. Due to time constraints, I will defer to existing resources that exist online.
+
 # Messages: The Basic Building Block
 
 The most important protocol concept is that of the "message".
-In their most simple form, Pigeon protocol messages are just ASCII text documents. They are human readable and can even be created by hand in a text editor, though most clients will provide better means of authoring messages.
+In their most simple form, Pigeon protocol messages are just text documents. Text encoding is determined by the client, but UTF-8 is highly encouraged for maximum interoperability. They are human readable and can even be created by hand in a text editor, though most clients will provide better means of authoring messages.
 
 Below is an example of such a message:
 

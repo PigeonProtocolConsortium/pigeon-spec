@@ -25,7 +25,7 @@ Pigeon has 4 data types:
  * Blob multihash: Used to identify arbitrary binary files mentioned in a feed. Blob multihashes start with the word `FILE.`, followed by a Base32 hash (SHA256).
  * Message multihash: Used to reference a message in someone's feed. Starts with the word `TEXT.` followed by a Base32 SHA256 checksum.
  * User multihash: Used to reference a particular feed. Starts with the word `USER.` followed by a base32 encoded ED25519 public key.
- * String: Information shorter than 128 characters can be wrapped in "double quotes" and placed directly into messages. Larger strings must be converted to blobs.
+ * String: Information shorter than 128 characters can be wrapped in "double quotes" and placed directly into messages. Larger strings must be converted to blobs. The byte length of a character is determined by the client's chosen text encoding scheme. Pigeon has no official text encoding, but UTF-8 is highly encouraged in scenarios where interoperability is important. One character always one character, even if it is multi-byte. Strings cannot contain whitespace characters (encoding dependent). The protocol does not implement character escaping (eg: `"\n"`). Please start a discussion on the mailing list if your application requires this feature.
  * None: The word "NONE" is used to indicate the absence of data, similarly to `null` or `nil` seen in some programming languages.
 
 ### Parts of a Message
@@ -79,6 +79,8 @@ depth 3
 Pigeon messages exist in a linear sequence which only moves forward and never "forks", skips or moves backward.
 Every message has a `depth` field to indicate its "place in line".
 Because every message has an ever-increasing integer that never duplicates, every message in a Pigeon feed will have a unique hash. This is true even if messages have identical body content.
+
+The `depth` count always starts at 0 and icreases by 1 every time a new message is added to the feeds. Feeds that assign `depth` values in a non-sequential order are invalid. Eg: No gaps, no skipping, etc..
 
 ### Line 3: `Kind`
 
@@ -175,7 +177,8 @@ Some notes about body entries:
 
  * The body of a message starts and ends with an empty line (`\n`).
  * Every body entry is a key value pair. Keys and values are separated by a `:` character (no spaces).
- * A key must be 1-90 characters in length
+ * A message may not exceed 128 key/value pairs.
+ * A key must be 1-90 characters in length.
  * A key cannot contain whitespace or control characters
  * A key may contain any of the following characters:
     * alphanumeric characters (a-z, A-Z, 0-9)
@@ -239,6 +242,6 @@ signature JSPJJQJRVBVGV52K2058AR2KFQCWSZ8M8W6Q6PB93R2T3SJ031AYX1X74KCW06HHVQ9Y6N
 ```
 
 A signature starts with the word `signature` followed by a space.
-After that, the body (including the trailing `\n`) is signed using the author's ED25519 key.
+After that, the body and header (including the trailing `\n`) are signed using the author's ED25519 key.
 The signature is encoded with Crockford base 32.
 An empty carriage return is added after the signature line.
