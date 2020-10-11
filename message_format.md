@@ -180,8 +180,9 @@ Some notes about body entries:
  * A message may not exceed 128 key/value pairs.
  * A key must be 1-90 characters in length.
  * A key cannot contain whitespace or control characters
- * A key may contain any of the following characters:
+ * A key only contains the following characters (`[A-Z|a-z|\-|\_|\.|0-9]{1,90}`):
     * alphanumeric characters (a-z, A-Z, 0-9)
+    * dots (`.`)
     * dashes (`-`)
     * underscores (`_`)
  * A value may be a:
