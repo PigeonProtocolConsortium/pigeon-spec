@@ -121,11 +121,28 @@ A peer can use the file above to update their local database. It is important to
 
 # Where Do Files Go in a Bundle?
 
-Since Pigeon messages can contain files (blobs), we need a way to include those files with the bundle. Blobs are added to bundles using a series of nested directories, shown in the example below.
+**UPDATE 17 OCT 2020:** After some review, I realize that the way files were included in bundles does not make sense:
 
-Example:
+ * Deeply nested directory structures were hard to implement and maintain.
+ * Forcing the _sender_ to state a file's content hash does not make sense from a security or performance perspective.
+  * Even if the _sender_ states a file's hash, the reciever is still required to verify the hash- why bother?
 
-a user exports a bundle that contains a few messages and the following blobs:
+
+Files ("blobs") are transferred alongside the `*.pgn` message bundle.
+It is the responsibility of the _receiver_ (not the sender) to calculate the multihash of an incoming file.
+
+Files added to a blob must follow these naming rules:
+
+ * The [filename extension](https://en.wikipedia.org/wiki/Filename_extension) is located in the same directory as the `messages.pgn` file.
+ * The filename must follow [8.3 filename conventions](https://en.wikipedia.org/wiki/8.3_filename).
+  * The file extension must be `.blb`.
+  * The filename cannot be longer than 8 chars.
+
+~~Since Pigeon messages can contain files (blobs), we need a way to include those files with the bundle. Blobs are added to bundles using a series of nested directories, shown in the example below.~~
+
+~~Example:~~
+
+~~a user exports a bundle that contains a few messages and the following blobs:~~
 
 ```
 FILE.622PRNJ7C0S05XR2AHDPKWMG051B1QW5SXMN2RQHF2AND6J8VGPG
@@ -133,9 +150,11 @@ FILE.FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG
 FILE.YPF11E5N9JFVB6KB1N1WDVVT9DXMCHE0XJWBZHT2CQ29S5SEPCSG
 ```
 
-If you exported a bundle that references these files, the directory structure of the bundle will look like this on the local filesystem:
+~~If you exported a bundle that references these files, the directory structure of the bundle will look like this on the local filesystem:~~
 
 ```
+!!!DEPRECATED!!!
+!!!DO NOT USE!!!
 ├── messages.pgn <= Explained in previous section.
 ├── 622PRNJ
 │   └── 7C0S05X
@@ -158,4 +177,6 @@ If you exported a bundle that references these files, the directory structure of
                 └── CHE0XJW
                     └── BZHT2CQ
                         └── 29S5SEP.CSG
+!!!DEPRECATED!!!
+!!!DO NOT USE!!!
 ```
