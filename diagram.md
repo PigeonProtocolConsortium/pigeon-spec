@@ -12,7 +12,6 @@ classDiagram
     author USER.R68...ZJ0
     depth 0
     kind my_blog
-    lipmaa NONE
     prev NONE
 
     current_status:"Another great day. Nice weather, too!"
@@ -24,7 +23,6 @@ classDiagram
     author USER.R68...ZJ0
     depth 1
     kind like_a_post
-    lipmaa NONE
     prev TEXT.6CB...ZC0
 
     liked_post_multihash:TEXT.6CB...ZC0

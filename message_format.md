@@ -8,7 +8,6 @@ The example message is shown in its entirety below:
 author USER.4CZHSZAH8473YPHP1F1DR5ZVCRKEA4Q0BY18NMXYE14NZ0XV2PGG
 depth 123
 kind weather_report
-lipmaa TEXT.7ZKXANAAM31R9AMHMBVGP9Q5BF5HSCP557981VQHBTRYETGTGAK0
 prev TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G
 
 temperature:"22.0C"
@@ -45,7 +44,6 @@ A header is the first part of a message and contains 5 subsections. Each of thes
  1. `author`: A user multihash indicating the author of the message. The public key will be used to verify the signature (found in the footer)
  1. `depth`: The order number of the current message. Since feeds are append-only, this number will only increase. The `depth` field ensures unique message signatures, even for successive duplicate messages.
  1. `kind`: Used by applications to determine the intent or "shape" of a message.
- 1. `lipmaa`: A [lipmaa link](https://github.com/AljoschaMeyer/bamboo#links-and-entry-verification). Points to a previous message multihash in the same feed that is computed using a [special function](https://kodu.ut.ee/~lipmaa/papers/thesis/thesis.pdf). Some day, this will allow for partial verification of feeds. The field is currently required and verified for correctness, but it is not used in any clients.
  1. `prev`: The multihash of the previous message in the feed. Required for verifying the authenticity of a feed.
 
 
@@ -107,53 +105,7 @@ Message multihashes are calculated as follows:
 1. Create a [Crockford base 32](https://www.crockford.com/base32.html) sha256 hash of the message's content.
 2. Append the string `TEXT.` to the front of the checksum created in step 1.
 
-### Line 4: `Lipmaa`
-
-This concept was borrowed from the [Bamboo protocol](https://github.com/AljoschaMeyer/bamboo#links-and-entry-verification) and [Helger Lipmaa's thesis](https://kodu.ut.ee/~lipmaa/papers/thesis/thesis.pdf).
-
-The `lipmaa` field (often called a "Lipmaa Link") is a special kind of `prev` field that allows partial verification of feeds. This field makes it possible to verify a single message (or subset of messages) without downloading the entire chain of messages.
-
-![](lipmaa.png)
-
-The `lipmaa` field is calculated using the function below. If the function returns an integer, the lipmaa link for the given message is the message multihash of the message with that depth. For example, if the function returns 17, the `lipmaa` will contain the multihash of message number 17 in the current feed:
-
-```ruby
-    def lipmaa(n)
-      # The original lipmaa function returns -1 for 0
-      # but that does not mesh well with our serialization
-      # scheme. Comments welcome on this one.
-      if n < 1 # Prevent -1, division by zero etc..
-        return nil
-      end
-
-      m, po3, x = 1, 3, n
-      # find k such that (3^k - 1)/2 >= n
-      while (m < n)
-        po3 *= 3
-        m = (po3 - 1) / 2
-      end
-      po3 /= 3
-      # find longest possible backjump
-      if (m != n)
-        while x != 0
-          m = (po3 - 1) / 2
-          po3 /= 3
-          x %= m
-        end
-        if (m != po3)
-          po3 = m
-        end
-      end
-      result = n - po3
-      if result == n - 1
-        return nil
-      else
-        return result
-      end
-    end
-```
-
-### Line 5: `Prev`
+### Line 4: `Prev`
 
 EXAMPLE:
 
@@ -168,7 +120,7 @@ To create this chain, a Pigeon message uses the `prev` field. The `prev` field c
 Messages are content addressed. This is in contrast to protocols such as HTTP which use names to identify resources. Because Pigeon messages are addressed by content rather than by name, changing a message's content, even by just one character, has the effect of completely changing the message's multihash.
 
 
-### Line 6: Body Start (Empty Line)
+### Line 5: Body Start (Empty Line)
 
 Once all headers are added, a client must place an empty line (`\n`) after the header.
 The empty line signifies the start of the message body.
@@ -189,7 +141,7 @@ Some notes about body entries:
    * A string (128 characters or less)
    * A multihash referencing an identity (`USER.`), a message (`TEXT.`) or a blob (`FILE.`).
 
-### Lines 7: Example Entry Containing a String
+### Lines 6: Example Entry Containing a String
 
 EXAMPLE:
 
@@ -205,7 +157,7 @@ The example above is the most simple kind of body entry. It specifies an arbitra
 
 The protocol does not dictate the format of strings (ie: there is no 1st class JSON support). The meaning and formatting of a string is the responsibility of the application.
 
-### Lines 8: Entry Referencing a Blob
+### Lines 7: Entry Referencing a Blob
 
 EXAMPLE:
 
@@ -217,7 +169,7 @@ Applications may attach files to messages in the form of blobs. Blobs are refere
 
 A blob is referenced in a message's key or value. A client will include a blob's content in a "bundle" (explained later). This ensures that a feed's peers get a copy of the file that a message references.
 
-### Lines 9: Entry Referencing a Peer's Identity
+### Lines 8: Entry Referencing a Peer's Identity
 
 EXAMPLE:
 
@@ -229,12 +181,12 @@ A message may reference other identities (or its own identity) by using an ident
 
 This is analogous to "social tagging" seen in many social networks.
 
-### Lines 10: Empty Carriage Return (Footer Start)
+### Lines 9: Empty Carriage Return (Footer Start)
 
 The last part of a message is the footer. Like a message body, a message footer starts and ends with an empty line.
 The footer is essential for ensuring the tamper resistant properties of a Pigeon message.
 
-### Lines 11: Signature Line
+### Lines 10: Signature Line
 
 EXAMPLE:
 

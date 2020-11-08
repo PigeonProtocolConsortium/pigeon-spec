@@ -172,7 +172,6 @@ written by hand.
 author USER.R68Q26P1GEFC0SNVVQ9S29SWCVVRGCYRV7D96GAN3XVQE3F9AZJ0
 depth 0
 kind my_blog
-lipmaa NONE
 prev NONE
 
 current_status:"Another great day. Nice weather, too!"
@@ -187,7 +186,6 @@ signature 2VMAG4SCX5RHVBKCB1RNZCB0AJN4WN6FEMS7W9FM1CVYSZXMX7CPQFCDPYEKCTGG91Y1YS
 author USER.R68Q26P1GEFC0SNVVQ9S29SWCVVRGCYRV7D96GAN3XVQE3F9AZJ0
 depth 1
 kind like
-lipmaa NONE
 prev TEXT.6CBA4J3756A5SNM1W1GHNCTT9EG95ZP3ZMAT5Z1EJP7TXMNNVZC0
 
 liked_post_multihash:TEXT.6CBA4J3756A5SNM1W1GHNCTT9EG95ZP3ZMAT5Z1EJP7TXMNNVZC0
@@ -324,10 +322,6 @@ aren't limited to NodeJS.
 Complicated features, such as network support, are ignored in favor of
 an easy-to-implement standard.
 
-The Pigeon protocol uses Lipmaa links, so you can verify a feed
-without downloading all messages. This was inspired by the work of the
-Bamboo protocol.
-
 # Influences
 
 Pigeon borrows many of the ideas set forth by the
@@ -343,10 +337,6 @@ I've also been inspired by the compactness and minimalism of
 
 In many ways, this protocol can be considered an amalgam of the best
 ideas from both SQLite and Secure Scuttlebutt.
-
-Pigeon also borrows the
-[Lipmaa link concept seen in the Bamboo protocol](https://github.com/AljoschaMeyer/bamboo)
-to allow for partial verification of message feeds.
 
 # Getting involved with the Pigeon protocol development
 

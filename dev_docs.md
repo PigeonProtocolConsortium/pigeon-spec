@@ -33,7 +33,6 @@ Below is an example of such a message:
 author USER.4CZHSZAH8473YPHP1F1DR5ZVCRKEA4Q0BY18NMXYE14NZ0XV2PGG
 depth 123
 kind weather_report
-lipmaa TEXT.7ZKXANAAM31R9AMHMBVGP9Q5BF5HSCP557981VQHBTRYETGTGAK0
 prev TEXT.E90DY6RABDQ2CJPVQHYQDYH6N7Q46SZKQ0AQ76J6D684HYBRKE4G
 
 temperature:"22.0C"
@@ -77,7 +76,6 @@ Here is an example of  the contents of a `messages.pgn` file:
 author USER.R68Q26P1GEFC0SNVVQ9S29SWCVVRGCYRV7D96GAN3XVQE3F9AZJ0
 depth 0
 kind chat_message
-lipmaa NONE
 prev NONE
 
 content:"Hello, world!"
@@ -87,7 +85,6 @@ signature 2VMAG4SCX5RHVBKCB1RNZCB0AJN4WN6FEMS7W9FM1CVYSZXMX7CPQFCDPYEKCTGG91Y1YS
 author USER.R68Q26P1GEFC0SNVVQ9S29SWCVVRGCYRV7D96GAN3XVQE3F9AZJ0
 depth 1
 kind chat_message
-lipmaa NONE
 prev TEXT.6CBA4J3756A5SNM1W1GHNCTT9EG95ZP3ZMAT5Z1EJP7TXMNNVZC0
 
 content:"Good morning!"
@@ -97,7 +94,6 @@ signature Y34Q47V0BY370RM5KWGRJRN9HFNGJN0C3DEYVB2V2476CW9RN5HD4XD7KMQ6T4T42N36R5
 author USER.0JZA9F3EQVX3NAG69D7VRYCGRVVCWS92S9QVVNS0CFEG1P62Q86R
 depth 2
 kind like
-lipmaa NONE
 prev TEXT.GAP6NJ21K6N75RAEJQ10C2QHFXNRHVPMC54FMGVA77CDJ8AVZQB5
 
 target:TEXT.5BQZVA8JDC77AVGMF45CMPVHRNXFHQ2C01QJEAR57N6K12JN6PAG
@@ -117,7 +113,6 @@ A peer can use the file above to update their local database. It is important to
 
  * Clients always reject messages that cannot be verified. For example, if a `messages.pgn` file starts at `depth 6` for a peer `USER.ABC`, and the local client has only verified `USER.ABC`s feed up to `depth 3`, the messages in the bundle will be rejected by the local client because it does not have enough information available to verify the authenticity of the message.
  * Messages must be ordered `depth` for a particular author.
- * Messages may be verified using the `lipmaa` property to avoid copying an entire feed into a bundle (eg: bundling only a subset of messages).
 
 # Where Do Files Go in a Bundle?
 
@@ -137,46 +132,3 @@ Files added to a blob must follow these naming rules:
  * The filename must follow [8.3 filename conventions](https://en.wikipedia.org/wiki/8.3_filename).
   * The file extension must be `.blb`.
   * The filename cannot be longer than 8 chars.
-
-~~Since Pigeon messages can contain files (blobs), we need a way to include those files with the bundle. Blobs are added to bundles using a series of nested directories, shown in the example below.~~
-
-~~Example:~~
-
-~~a user exports a bundle that contains a few messages and the following blobs:~~
-
-```
-FILE.622PRNJ7C0S05XR2AHDPKWMG051B1QW5SXMN2RQHF2AND6J8VGPG
-FILE.FV0FJ0YZADY7C5JTTFYPKDBHTZJ5JVVP5TCKP0605WWXYJG4VMRG
-FILE.YPF11E5N9JFVB6KB1N1WDVVT9DXMCHE0XJWBZHT2CQ29S5SEPCSG
-```
-
-~~If you exported a bundle that references these files, the directory structure of the bundle will look like this on the local filesystem:~~
-
-```
-!!!DEPRECATED!!!
-!!!DO NOT USE!!!
-├── messages.pgn <= Explained in previous section.
-├── 622PRNJ
-│   └── 7C0S05X
-│       └── R2AHDPK
-│           └── WMG051B
-│               └── 1QW5SXM
-│                   └── N2RQHF2
-│                       └── AND6J8V.GPG <= The contents of 622...GPG are here
-├── FV0FJ0Y
-│   └── ZADY7C5
-│       └── JTTFYPK
-│           └── DBHTZJ5
-│               └── JVVP5TC
-│                   └── KP0605W
-│                       └── WXYJG4V.MRG
-└── YPF11E5
-    └── N9JFVB6
-        └── KB1N1WD
-            └── VVT9DXM
-                └── CHE0XJW
-                    └── BZHT2CQ
-                        └── 29S5SEP.CSG
-!!!DEPRECATED!!!
-!!!DO NOT USE!!!
-```
