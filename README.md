@@ -326,13 +326,13 @@ an easy-to-implement standard.
 
 Pigeon borrows many of the ideas set forth by the
 [Secure Scuttlebutt protocol](https://ssbc.github.io/scuttlebutt-protocol-guide/).
-It is my opinion that SSB is one of the most innovative protocols
+It is our opinion that SSB is one of the most innovative protocols
 created in recent years. Without the research and efforts of the
 [Secure Scuttlebutt Consortium](https://github.com/ssbc)
 , this project would not be possible, so a big thanks goes out to all
 the people who make SSB possible.
 
-I've also been inspired by the compactness and minimalism of
+We've also been inspired by the compactness and minimalism of
 [SQLite, which should serve as a role model for all of us](https://www.sqlite.org/talks/wroclaw-20090310.pdf).
 
 In many ways, this protocol can be considered an amalgam of the best
@@ -350,8 +350,8 @@ are areas we need help in currently:
   assist you along the way.
 * We need a BNF grammar for Pigeon messages.
 
-Your feedback really helps. Feel free to email me your opinions and
-ideas at `contact at vaporsoft.xyz`. I will reply to all messages.
+Your feedback really helps. Feel free to email us your opinions and
+ideas at `contact at vaporsoft.xyz`. We will reply to all messages.
 
 # For more information
 
