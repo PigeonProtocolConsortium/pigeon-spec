@@ -13,7 +13,7 @@ entirely offline.
 - [How does the Pigeon protocol benefit users?](#how-does-the-pigeon-protocol-benefit-users)
     - [Data is backed up by default](#data-is-backed-up-by-default)
     - [Data can be shared anywhere](#data-can-be-shared-anywhere)
-    - [Data is tamper-proof](#data-is-tamper-proof)
+    - [Data is tamper-resistant](#data-is-tamper-resistant)
     - [Data is always available](#data-is-always-available)
 - [Use-case scenarios](#use-case-scenarios)
 - [Software implementation ideas](#software-implementation-ideas)
@@ -53,7 +53,7 @@ This section consists of the following subsections:
 
 - [Data is backed up by default](#data-is-backed-up-by-default)
 - [Data can be shared anywhere](#data-can-be-shared-anywhere)
-- [Data is tamper-proof](#data-is-tamper-proof)
+- [Data is tamper-resistant](#data-is-tamper-resistant)
 - [Data is always available](#data-is-always-available)
 
 ## Data is backed up by default
@@ -69,7 +69,7 @@ Every user in the mesh has a local database. You can share your
 database entries anywhere, such as CD-R, email, public forums, and
 [USB dead drops](https://en.wikipedia.org/wiki/USB_dead_drop).
 
-## Data is tamper-proof
+## Data is tamper-resistant
 
 Entries in the database are cryptographically signed. Because the
 entries are signed, you don't have to worry about malicious third

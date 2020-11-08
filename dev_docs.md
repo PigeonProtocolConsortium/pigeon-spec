@@ -14,7 +14,7 @@ Pigeon has many of the same goals as Secure Scuttlebutt, including the user's ri
 
 # Fundamental Concept: Content Addressing
 
-Pigeon Protocol relies heavily on content addressing and the SHA-512 hashing algorithm. This means that instead of assigning arbitrary or user-generated names to resources (as is the case with web addresses), names are assigned using the SHA-512 hash algorithm.
+Pigeon Protocol relies heavily on content addressing and the SHA-256 hashing algorithm. This means that instead of assigning arbitrary or user-generated names to resources (as is the case with web addresses), names are assigned using the SHA-256 hash algorithm.
 
 Please watch [this video] if you are unfamiliar with hashing algorithms.
 
@@ -112,19 +112,12 @@ A peer can use the file above to update their local database. It is important to
  * Since Peer A cannot verify message at `depth 8` until it receives `depth 7` and `depth 6`, the messages are rejected by peer A.
 
  * Clients always reject messages that cannot be verified. For example, if a `messages.pgn` file starts at `depth 6` for a peer `USER.ABC`, and the local client has only verified `USER.ABC`s feed up to `depth 3`, the messages in the bundle will be rejected by the local client because it does not have enough information available to verify the authenticity of the message.
- * Messages must be ordered `depth` for a particular author.
+ * Messages must be ordered by `depth` for a particular author.
 
 # Where Do Files Go in a Bundle?
 
-**UPDATE 17 OCT 2020:** After some review, I realize that the way files were included in bundles does not make sense:
-
- * Deeply nested directory structures were hard to implement and maintain.
- * Forcing the _sender_ to state a file's content hash does not make sense from a security or performance perspective.
-  * Even if the _sender_ states a file's hash, the reciever is still required to verify the hash- why bother?
-
-
 Files ("blobs") are transferred alongside the `*.pgn` message bundle.
-It is the responsibility of the _receiver_ (not the sender) to calculate the multihash of an incoming file.
+It is the responsibility of the _receiver_ (not the sender) to calculate the multihash of an incoming file. The ensures that files are not misrepresented or tampered with.
 
 Files added to a blob must follow these naming rules:
 
