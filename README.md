@@ -197,7 +197,7 @@ signature Y34Q47V0BY370RM5KWGRJRN9HFNGJN0C3DEYVB2V2476CW9RN5HD4XD7KMQ6T4T42N36R5
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
 
 For examples of how messages are handled, see the Ruby-implementation tutorial
-[here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby/src/branch/master/ruby_tutorial.md)
+[here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby/src/branch/main/ruby_tutorial.md)
 
 # Constraints and Design Philosophy
 
