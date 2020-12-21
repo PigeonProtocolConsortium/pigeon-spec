@@ -6,6 +6,11 @@ The Pigeon protocol is an off-grid, serverless, peer-to-peer protocol
 for building software that works on poor internet connections, or
 entirely offline.
 
+
+# Project Status
+
+HIBERNATION. Pigeon was an exploration of ideas that I embarked on in 2020. Now (2021) I am changing my focus. If more people are interested in the project I might start work on it again. Please let me know by raising an issue. For now, I am shifting my focus to other areas unless interest in the project changes.
+
 # Table of contents
 
 - [Introduction](#introduction)
