@@ -134,7 +134,7 @@ The Pigeon protocol may be useful in scenarios such as:
 # Implementations
 
 There is currently one working implementation available
-[here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby).
+[here](https://github.com/PigeonProtocolConsortium/pigeon-cli-ruby).
 A long term goal is to support all major platforms and languages.
 
 # How does the Pigeon protocol work?
@@ -202,7 +202,7 @@ signature Y34Q47V0BY370RM5KWGRJRN9HFNGJN0C3DEYVB2V2476CW9RN5HD4XD7KMQ6T4T42N36R5
 ![A hierarchy diagram showing how the message in example 2 points back to example 1, and how example 1 points back to NONE](diagram1.png)
 
 For examples of how messages are handled, see the Ruby-implementation tutorial
-[here](https://tildegit.org/PigeonProtocolConsortium/pigeon_ruby/src/branch/main/ruby_tutorial.md)
+[here](https://github.com/PigeonProtocolConsortium/pigeon-cli-ruby/blob/main/ruby_tutorial.md)
 
 # Constraints and Design Philosophy
 
